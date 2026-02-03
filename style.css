@@ -1,0 +1,754 @@
+/* =========================================
+   1. VARIABLES & THEME
+   ========================================= */
+:root {
+    /* Colors - Premium Black Theme */
+    --bg-primary: #000000;
+    /* Pure Black */
+    --bg-secondary: #0a0a0a;
+    /* Almost Black */
+    --text-primary: #ffffff;
+    /* Pure White */
+    --text-secondary: #a1a1aa;
+    /* Neutral 400 */
+    --accent: #3b82f6;
+    /* Keep Blue Accent */
+    --accent-glow: rgba(59, 130, 246, 0.4);
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+    --gradient-bg: #000000;
+
+    /* Spacing */
+    --container-width: 1200px;
+    --header-height: 80px;
+
+    /* Effects */
+    --glass-bg: rgba(0, 0, 0, 0.8);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(12px);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================
+   2. RESET & BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #000000;
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* =========================================
+   3. UTILITIES
+   ========================================= */
+.container {
+    width: 90%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section {
+    padding: 100px 0;
+}
+
+.text-gradient {
+    color: var(--accent);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 30px;
+}
+
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+}
+
+/* =========================================
+   4. HEADER
+   =========================================*/
+/* Header - Floating Pill Style */
+.header {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 0;
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom: none;
+    pointer-events: none;
+    /* Allow clicks through empty space */
+}
+
+.header .container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    max-width: 100%;
+    pointer-events: auto;
+    /* Re-enable clicks on contents */
+}
+
+.nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    /* Lighter, more premium glass */
+    padding: 12px 36px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.nav-pill:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.logo-absolute {
+    position: absolute;
+    left: 60px;
+    /* Adjusted for wider spacing */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.theme-toggle-absolute {
+    position: absolute;
+    right: 60px;
+    /* Adjusted for wider spacing */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Subtle border */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.theme-toggle-absolute:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: rotate(15deg);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    /* White pill on hover */
+    transform: translateY(-1px);
+}
+
+.linkedin-link {
+    color: white;
+    /* Default white in dark mode */
+    font-weight: 600;
+}
+
+/* Light Mode Overrides */
+body.light-mode {
+    background: #ffffff;
+    color: #0f172a;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .nav-pill {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .theme-toggle-absolute {
+    border-color: rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    /* White background */
+    color: #f59e0b;
+    /* Orange/Yellow sun color */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
+}
+
+body.light-mode .nav-link:hover {
+    color: #0f172a;
+    background: rgba(0, 0, 0, 0.05);
+    /* Dark pill on hover */
+}
+
+body.light-mode .linkedin-link {
+    color: #0f172a;
+    /* Dark text in light mode for visibility */
+}
+
+body.light-mode .marquee-container {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+.logo-img {
+    height: 60px;
+    /* Adjust height as needed */
+    width: auto;
+    object-fit: contain;
+}
+
+/* In Light Mode, invert the white logo to black */
+body.light-mode .logo-img {
+    filter: invert(1) brightness(0);
+    /* Turns white to black */
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+/* =========================================
+   5. HERO SECTION
+   ========================================= */
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: var(--header-height);
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: var(--accent);
+    filter: blur(150px);
+    opacity: 0.1;
+    /* Reduced opacity for subtlety */
+    border-radius: 50%;
+    z-index: -1;
+    animation: float 10s infinite ease-in-out;
+}
+
+.blob-1 {
+    top: -20%;
+    left: -10%;
+    background: #3b82f6;
+}
+
+.blob-2 {
+    bottom: -20%;
+    right: -10%;
+    animation-delay: 5s;
+    background: #06b6d4;
+}
+
+/* Hero Typography - All Blue/Slate theme from screenshot */
+/* Hero Typography - All Blue/Slate theme from screenshot */
+.hero-title {
+    font-size: 5rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    color: #3b82f6;
+    text-align: center;
+    /* Enforce Center */
+}
+
+.hero-role {
+    font-size: 3rem;
+    font-weight: 500;
+    color: #3b82f6;
+    margin-bottom: 10px;
+    text-align: center;
+    /* Enforce Center */
+}
+
+.hero-tagline {
+    font-size: 3rem;
+    font-weight: 500;
+    color: #3b82f6;
+    margin-bottom: 40px;
+    text-align: center;
+    /* Enforce Center */
+}
+
+.hero-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Skills Section */
+.skills-section {
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+    background: black;
+    /* seamless match */
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.skill-tag {
+    padding: 12px 24px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: grab;
+    /* Indicates draggable */
+    position: relative;
+    /* Allows JS movement */
+    user-select: none;
+    /* Prevents text selection while dragging */
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: float-jiggle 3s ease-in-out infinite;
+}
+
+.skill-tag:hover {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    /* Pausing animation on hover if preferred, or speeding it up? 
+       User wants interaction. Let's keep it dragging. */
+}
+
+.skill-tag:active {
+    cursor: grabbing;
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+    /* Slight pop when grabbed */
+    z-index: 100;
+    /* Bring to front */
+}
+
+@keyframes float-jiggle {
+
+    0%,
+    100% {
+        transform: rotate(-2deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(2deg) translateY(-5px);
+    }
+}
+
+/* Light Mode Overrides for Skills */
+body.light-mode .skills-section {
+    background: var(--bg-primary);
+}
+
+body.light-mode .skill-tag {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
+}
+
+body.light-mode .skill-tag:hover {
+    color: var(--text-primary);
+    border-color: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================
+   6. COMPONENTS (About, Timeline, Skills)
+   ========================================= */
+
+/* About Grid */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Timeline & Airplane */
+.timeline {
+    position: relative;
+    padding-left: 40px;
+    max-width: 1000px;
+    margin: 80px auto 0;
+    /* INCREASED SPACING from 40px */
+}
+
+/* ... existing timeline styles ... */
+
+.timeline-plane {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    transform: translateX(-50%) rotate(135deg);
+    /* Correct rotation for this specific SVG path (points top-right usually) */
+    width: 24px;
+    height: 24px;
+    z-index: 10;
+    transition: top 0.1s linear;
+    filter: drop-shadow(0 0 8px #3b82f6);
+}
+
+.timeline-plane svg {
+    /* SVG usually points 45deg or up. Let's rotate it to point DOWN. */
+    /* The path M22 2... points top right. We want it pointing DOWN. */
+    /* So we need to rotate 135deg. */
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.timeline-plane path {
+    fill: var(--bg-primary);
+    stroke: #3b82f6;
+}
+
+/* Timeline Items */
+.timeline-item {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    /* Role | Description */
+    gap: 40px;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+/* Dots on the line */
+.timeline-dot {
+    position: absolute;
+    left: -26px;
+    /* 20px line position absolute - 40px padding shift + offset? 
+                  Relative to timeline-item (which is inside padding-left: 40px).
+                  Line is at left: 20px absolute.
+                  Item starts at left: 40px locally.
+                  So line is -20px relative to item.
+                  Dot needs to be centered on line.
+                  Width 12px. Center is 6px.
+                  So left: -20px - 6px = -26px. */
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: #3b82f6;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    z-index: 5;
+    border: none;
+    /* Reset old styles */
+}
+
+.timeline-left {
+    text-align: left;
+    padding-left: 0;
+    /* Reset */
+    min-width: auto;
+    /* Reset */
+}
+
+.timeline-role {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 0;
+}
+
+.timeline-right p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+
+/* Skills Cloud */
+.skill-pill {
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.skill-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+/* Projects */
+.filter-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-card {
+    background: var(--bg-secondary);
+    border: var(--glass-border);
+    border-radius: 24px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-image {
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.project-info {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.project-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.btn-card {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes float {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(20px, 40px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scroll Next Button */
+.scroll-next-btn {
+    position: absolute;
+    top: 60%;
+    /* Adjusted to be vertically centered relative to cards */
+    right: 0;
+    /* Changed from -20px to 0 to ensure it's inside */
+    transform: translateY(-50%);
+    width: 60px;
+    /* Slightly larger */
+    height: 60px;
+    border-radius: 50%;
+    background: #3b82f6;
+    /* Solid Blue for high visibility */
+    border: 2px solid white;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    /* Super high z-index */
+    transition: all 0.3s ease;
+}
+
+.scroll-next-btn:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Ensure Projects Section Container is relative for absolute button positioning */
+#portfolio .container {
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    .scroll-next-btn {
+        right: 10px;
+        /* Bring inside on smaller screens */
+    }
+}
