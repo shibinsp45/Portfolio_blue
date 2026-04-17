@@ -24,7 +24,7 @@ export default function Hero() {
     <section ref={ref} id="home" style={{
       minHeight: '100svh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '0 2rem', position: 'relative', overflow: 'hidden',
+      padding: '80px 2rem 0', position: 'relative', overflow: 'hidden',
       background: 'var(--bg)',
     }}>
       {/* Noise */}
@@ -53,15 +53,30 @@ export default function Hero() {
 
       {/* Content */}
       <motion.div style={{ y, opacity, position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: 860 }}>
-        {/* Availability tag */}
+        {/* Intro Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace", color: 'var(--fg3)', letterSpacing: '0.08em', marginBottom: '2rem' }}
+          style={{ 
+            display: 'inline-flex', 
+            flexDirection: 'row', 
+            alignItems: 'center', 
+            gap: '6px',
+            padding: '8px 20px', 
+            borderRadius: 999, 
+            background: 'var(--surface2)', 
+            border: '1px solid var(--border)',
+            marginBottom: '2rem',
+            backdropFilter: 'blur(12px)'
+          }}
         >
-          <span className="live-dot" />
-          Available for new projects
+          <span style={{ fontSize: '0.875rem', color: 'var(--fg2)', fontWeight: 500 }}>
+            Hey there, I'm
+          </span>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '0.9rem', color: 'var(--fg)', fontWeight: 600, letterSpacing: '-0.01em' }}>
+            Shibin S P
+          </span>
         </motion.div>
 
         {/* Headline */}
@@ -110,7 +125,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 1 }}
           style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '4rem', flexWrap: 'wrap' }}
         >
-          {[['2.8+', 'Years experience'], ['10+', 'Projects shipped'], ['5+', 'Happy clients']].map(([num, lbl]) => (
+          {[['2.8+', 'Years experience'], ['10+', 'Projects shipped'], ['300+', 'Students mentored']].map(([num, lbl]) => (
             <div key={lbl} style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: 'var(--fg)', letterSpacing: '-0.03em', lineHeight: 1 }}>{num}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', marginTop: 4, letterSpacing: '0.02em' }}>{lbl}</div>

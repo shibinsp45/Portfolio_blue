@@ -74,19 +74,19 @@ export const projects = [
 
 export const experiences = [
   {
-    role: 'UI UX Designer', company: 'Webcastle', period: '2025 — Present',
+    role: 'UI/UX Designer and Mentor', company: 'Zoople Technologies', period: '2025 — Present',
     desc: 'Leading end-to-end product design, AI-driven social insights, and mentoring junior designers.',
-    active: true,
+    active: true, hoverColor: '#000000',
   },
   {
-    role: 'UI/UX Designer', company: 'Kreative Sparkz', period: '2024',
+    role: 'UI/UX Designer and Mentor', company: 'Kreative Sparkz', period: '2024',
     desc: 'Designed user-centred UI/UX solutions. Led user research, developed interactive prototypes and wireframes.',
-    active: false,
+    active: false, hoverColor: '#ef4444',
   },
   {
-    role: 'UI/UX Designer Intern', company: 'Nuren AI', period: '2023 — 2024',
+    role: 'UI UX Designer', company: 'Nuren AI', period: '2023 — 2024',
     desc: 'Created web UI and interactions for a CRM platform. Conducted user research and developed prototypes.',
-    active: false,
+    active: false, hoverColor: '#3b82f6',
   },
 ];
 

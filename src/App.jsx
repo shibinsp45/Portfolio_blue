@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SoulChatbot from './components/SoulChatbot';
-import { Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer } from './components/Sections';
+import { Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer, QuoteSection } from './components/Sections';
 
 export default function App() {
   const [dark, setDark] = useState(true);
@@ -19,12 +19,11 @@ export default function App() {
       <ScrollProgress />
       <Navbar dark={dark} toggleTheme={() => setDark(d => !d)} />
       <Hero />
-      <Marquee />
-      <Skills />
-      <Projects />
       <About />
+      <QuoteSection />
+      <Projects />
+      <Skills />
       <Career />
-      <Why />
       <Testimonials />
       <Contact />
       <Footer />

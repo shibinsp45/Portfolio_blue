@@ -53,13 +53,28 @@ export function Skills() {
   );
 }
 
+/* ─── Quote Section ─── */
+export function QuoteSection() {
+  return (
+    <section className="section" style={{ background: 'var(--bg)', padding: '4rem 2rem', textAlign: 'center' }}>
+      <div className="max-w">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8 }}>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontStyle: 'italic', fontWeight: 300, color: 'var(--fg)', lineHeight: 1.2, margin: 0, letterSpacing: '-0.02em' }}>
+            "Craft by <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>mind</em>,<br /> design with <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>soul</em>."
+          </h2>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── About ─── */
 export function About() {
   return (
     <section className="section" id="about" style={{ background: 'var(--bg)' }}>
       <div className="max-w">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
-          <div className="eyebrow">Who I am</div>
+          <div className="eyebrow">Who I'am</div>
           <h2 className="section-title">Engineer turned<br /><em>experience designer</em></h2>
         </motion.div>
 
@@ -86,14 +101,8 @@ export function About() {
           {/* Content */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8, delay: 0.2 }}>
             <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.8, marginTop: '0.5rem' }}>
-              Hey! I'm Shibin — a product designer and front-end developer with a BTech in Computer Science. I bridge the gap between research and beautiful, usable interfaces.
+              Product designer & front-end developer crafting user-centred interfaces. USING AI AS A PARTNER IN DESIGN AND DEV ,
             </p>
-            <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.8, marginTop: '1rem' }}>
-              I've worked across startups and agencies, designing everything from CRM dashboards to food delivery apps. I care deeply about the details that make digital products feel human.
-            </p>
-            <blockquote style={{ borderLeft: '2px solid var(--accent)', paddingLeft: '1.25rem', margin: '2rem 0', fontFamily: "'Fraunces', serif", fontSize: '1.1rem', fontStyle: 'italic', color: 'var(--fg2)', lineHeight: 1.5 }}>
-              "Craft by mind, design with soul."
-            </blockquote>
 
             <div style={{ fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace", color: 'var(--fg3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem', marginTop: '2rem' }}>Tools I use daily</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -110,6 +119,7 @@ export function About() {
   );
 }
 
+
 /* ─── Career ─── */
 export function Career() {
   return (
@@ -124,7 +134,11 @@ export function Career() {
           {experiences.map((e, i) => (
             <motion.div key={e.role} className="exp-item"
               initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
-              viewport={vp} transition={{ duration: 0.6, delay: i * 0.12 }}>
+              viewport={vp} transition={{ duration: 0.6, delay: i * 0.12 }}
+              onMouseEnter={ev => ev.currentTarget.style.backgroundColor = e.hoverColor || 'var(--bg2)'}
+              onMouseLeave={ev => ev.currentTarget.style.backgroundColor = 'transparent'}
+              style={{ transition: 'background-color 0.4s ease', padding: '2rem' }}
+            >
               <div>
                 <div className="exp-period">{e.period}</div>
                 {e.active && <div className="exp-status">Current</div>}
@@ -176,7 +190,7 @@ export function Why() {
 /* ─── Testimonials ─── */
 export function Testimonials() {
   return (
-    <section className="section section--alt">
+    <section className="section" style={{ background: 'var(--bg)' }}>
       <div className="max-w">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
           <div className="eyebrow">Recommendations</div>
