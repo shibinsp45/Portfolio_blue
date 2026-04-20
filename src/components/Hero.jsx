@@ -126,9 +126,9 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '4rem', flexWrap: 'wrap' }}
+          style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '3rem', flexWrap: 'wrap' }}
         >
-          {[['2.8+', 'Years experience'], ['10+', 'Projects shipped'], ['300+', 'Students mentored']].map(([num, lbl]) => (
+          {[['4+', 'Years experience'], ['25+', 'Projects shipped'], ['500+', 'Students mentored']].map(([num, lbl]) => (
             <div key={lbl} style={{ textAlign: 'center' }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: 'var(--fg)', letterSpacing: '-0.03em', lineHeight: 1 }}>{num}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', marginTop: 4, letterSpacing: '0.02em' }}>{lbl}</div>
