@@ -93,6 +93,24 @@ export default function SoulChatbot() {
   const lastSent = useRef(0);
   const snd = useSounds();
 
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.visualViewport) {
+        setIsKeyboardOpen(window.visualViewport.height < window.innerHeight * 0.85);
+      }
+    };
+    window.visualViewport?.addEventListener('resize', onResize);
+    return () => window.visualViewport?.removeEventListener('resize', onResize);
+  }, []);
+
+  useEffect(() => {
+    if (open && msgsRef.current) {
+      setTimeout(() => msgsRef.current.scrollTop = msgsRef.current.scrollHeight, 100);
+    }
+  }, [isKeyboardOpen, open]);
+
   useEffect(() => {
     const onScroll = () => {
       if (window.scrollY > 600 && !bubDismissed && !open) {
@@ -134,15 +152,32 @@ export default function SoulChatbot() {
     setLoading(true);
 
     // Mock Response system specifically for the portfolio context
-    let ans = "I'm currently running in local demo mode! 😅 You can check out my [Resume](https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF) or contact me via [Email](mailto:shibinsp45@gmail.com).";
+    let ans = "I'm Shibin's personal AI! I can tell you about his projects (like Fudit or Billzy), his experience at Webcastle, his design skills, or how to get his resume/contact him. What's on your mind?";
     const low = text.toLowerCase();
-    if (low.includes('do you do') || low.includes('who are') || low.includes('about')) ans = "I'm Shibin, a UI/UX Designer & Front-End Dev from Kerala. I design digital experiences that feel right to use! 🎨";
-    else if (low.includes('project') || low.includes('work')) ans = "I've worked on Billzy, Fudit, GetFit, GroPlan, and more. Scroll up to see my case studies!";
-    else if (low.includes('skill') || low.includes('tech') || low.includes('use')) ans = "I specialize in User Interface Design, UX Research, Figma, and React.";
-    else if (low.includes('contact') || low.includes('email') || low.includes('whatsapp') || low.includes('phone') || low.includes('reach')) ans = "You can reach me via [Email](mailto:shibinsp45@gmail.com) or [WhatsApp](https://wa.me/918606129072).";
-    else if (low.includes('resume') || low.includes('cv')) ans = "Here is my [Resume](https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF).";
-    else if (low.includes('experience') || low.includes('role') || low.includes('where')) ans = "I'm currently at Webcastle. Before that I was at Kreative Sparkz and Nuren AI.";
-    else if (low.includes('hi') || low.includes('hey') || low.includes('hello')) ans = "Hey there! 👋 I'm Soul, Shibin's AI assistant. Ask me anything about his work!";
+    
+    if (low.includes('do you do') || low.includes('who are') || low.includes('about')) {
+      ans = "I'm a UI/UX Designer & Product Designer focused on creating soulful digital experiences. I bridge the gap between complex tech and human needs. 🎨";
+    } else if (low.includes('project') || low.includes('work') || low.includes('portfolio')) {
+      ans = "I've built apps like Billzy (Invoices), Fudit (AI Food), and ProMedic. Most are UX case studies focused on solving real user problems. Want to hear about a specific one?";
+    } else if (low.includes('skill') || low.includes('tech') || low.includes('use') || low.includes('tool')) {
+      ans = "My toolkit includes Figma, React, Framer, and Adobe Suite. I specialize in Design Systems and Prototyping. I also use AI tools to speed up my design workflow! ⚡";
+    } else if (low.includes('contact') || low.includes('reach') || low.includes('hire')) {
+      ans = "You can reach me via [Email](mailto:shibinsp45@gmail.com) or [WhatsApp](https://wa.me/918606129072). Also active on [LinkedIn](https://linkedin.com/in/shibinsp45)!";
+    } else if (low.includes('resume') || low.includes('cv')) {
+      ans = "Sure! You can download/view my [Resume here](https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF).";
+    } else if (low.includes('experience') || low.includes('role') || low.includes('where')) {
+      ans = "Currently at Webcastle. Previously helped teams at Kreative Sparkz and Nuren AI. I have over 2.5 years of experience in product design.";
+    } else if (low.includes('price') || low.includes('cost') || low.includes('budget')) {
+      ans = "I'm always open to discussing new projects! Let's connect on [WhatsApp](https://wa.me/918606129072) to talk details.";
+    } else if (low.includes('hi') || low.includes('hey') || low.includes('hello')) {
+      ans = "Hey there! 👋 I'm Soul, Shibin's AI. Ask me anything about his work, skills, or just how he can help you!";
+    } else if (low.length < 10 && !low.includes('?')) {
+      ans = "Got it! Feel free to ask me anything about my design journey, specific projects, or how to work together. 😊";
+    } else {
+      ans = "That's a great question! As an AI, I'm mainly here to talk about Shibin's design work. If you have a specific project in mind, reach out to him directly: [Contact](mailto:shibinsp45@gmail.com)!";
+    }
+
+    // Simulate streaming
 
     // Simulate streaming
     for (let i = 0; i <= ans.length; i++) {

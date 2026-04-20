@@ -149,25 +149,55 @@ export default function Navbar({ dark, toggleTheme }) {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, background: dark ? 'rgba(10,10,15,0.97)' : 'rgba(248,249,250,0.97)', backdropFilter: 'blur(20px)', zIndex: 200, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', padding: '3rem 2rem', gap: '2rem' }}
+            initial={{ opacity: 0, x: '100%' }} 
+            animate={{ opacity: 1, x: 0 }} 
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{ 
+              position: 'fixed', inset: 0, 
+              background: dark ? 'rgba(10,10,15,0.98)' : 'rgba(255,255,255,0.98)', 
+              backdropFilter: 'blur(32px)', zIndex: 200, 
+              display: 'flex', flexDirection: 'column', 
+              padding: '6rem 2.5rem 2.5rem' 
+            }}
           >
             <button onClick={() => setMobileOpen(false)}
-              style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--border)', background: 'var(--surface)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg2)' }}>
-              <X size={16} />
+              style={{ position: 'absolute', top: '1.25rem', right: '1.25rem', width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--border)', background: 'var(--surface)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg)' }}>
+              <X size={20} />
             </button>
-            {navLinks.map(link => {
-              const isActive = activeSection === link.href.replace('#', '');
-              return (
-                <a key={link.label} href={link.href} onClick={e => handleNavClick(e, link.href)}
-                  style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: isActive ? 'var(--accent2)' : 'var(--fg2)', transition: 'color 0.2s', letterSpacing: '-0.02em' }}
-                  onMouseEnter={e => e.target.style.color = 'var(--fg)'}
-                  onMouseLeave={e => e.target.style.color = isActive ? 'var(--accent2)' : 'var(--fg2)'}
-                >
-                  {link.label}
-                </a>
-              );
-            })}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--accent2)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Navigation</div>
+              {navLinks.map((link, idx) => {
+                const isActive = activeSection === link.href.replace('#', '');
+                return (
+                  <motion.a 
+                    key={link.label} 
+                    href={link.href} 
+                    onClick={e => handleNavClick(e, link.href)}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    style={{ 
+                      fontFamily: "'Fraunces', serif", 
+                      fontSize: '3rem', 
+                      fontWeight: 300, 
+                      color: isActive ? 'var(--fg)' : 'var(--fg2)', 
+                      display: 'block',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1
+                    }}
+                  >
+                    {link.label}
+                  </motion.a>
+                );
+              })}
+            </div>
+
+            <div style={{ paddingTop: '2rem', borderTop: '1px solid var(--border)', display: 'flex', gap: '1.5rem' }}>
+              <a href="https://linkedin.com/in/shibinsp45" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>LinkedIn</a>
+              <a href="https://wa.me/918606129072" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>WhatsApp</a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
