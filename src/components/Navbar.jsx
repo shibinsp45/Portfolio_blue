@@ -24,26 +24,30 @@ export default function Navbar({ dark, toggleTheme }) {
   // Track active section via scroll position
   useEffect(() => {
     const sectionIds = navLinks.map(l => l.href.replace('#', ''));
+    let ticking = false;
 
     const onScroll = () => {
-      const scrollPos = window.scrollY + 150;
-      // Sort sections by their actual position on the page
-      const sorted = sectionIds
-        .map(id => ({ id, el: document.getElementById(id) }))
-        .filter(s => s.el)
-        .sort((a, b) => a.el.offsetTop - b.el.offsetTop);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPos = window.scrollY + 200;
+          const sorted = sectionIds
+            .map(id => ({ id, el: document.getElementById(id) }))
+            .filter(s => s.el)
+            .sort((a, b) => a.el.offsetTop - b.el.offsetTop);
 
-      let currentId = '';
-      for (const { id, el } of sorted) {
-        if (el.offsetTop <= scrollPos) {
-          currentId = id;
-        }
+          let currentId = '';
+          for (const { id, el } of sorted) {
+            if (el.offsetTop <= scrollPos) currentId = id;
+          }
+          setActiveSection(prev => prev !== currentId ? currentId : prev);
+          ticking = false;
+        });
+        ticking = true;
       }
-      setActiveSection(currentId);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // initial check
+    onScroll(); 
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 

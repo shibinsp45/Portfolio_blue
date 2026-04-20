@@ -18,11 +18,33 @@
   --surface:rgba(0,0,0,0.03); --surface2:rgba(0,0,0,0.06);
   --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.16);
   --fg:#0a0a0f; --fg2:#505060; --fg3:#8a8a98;
-  --accent:#664ff0; --accent2:#7c6dfa;
+  --accent:#664ff0; --accent2: #9d8dfc;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 100px; }
-body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--fg); line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; transition:background 0.3s, color 0.3s; }
+* { 
+  margin: 0; padding: 0; 
+  box-sizing: border-box; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html { 
+  scroll-behavior: smooth; 
+  overflow-x: hidden;
+  height: 100%;
+  scroll-padding-top: 100px;
+}
+
+body { 
+  background: var(--bg); 
+  color: var(--fg); 
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  overscroll-behavior-y: none;
+  transition:background 0.3s, color 0.3s; 
+}
+
 img { max-width:100%; display:block; }
 a { color:inherit; text-decoration:none; }
 ::-webkit-scrollbar { width:4px; }

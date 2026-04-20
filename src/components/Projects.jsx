@@ -33,11 +33,13 @@ function ProjectCard({ project, index, isMobile }) {
         border: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column',
         position: isMobile ? 'sticky' : 'relative',
-        top: isMobile ? `${90 + (index * 10)}px` : 'auto',
-        transition: 'all 0.4s ease',
+        top: isMobile ? `${80 + (index * 6)}px` : 'auto',
+        zIndex: isMobile ? index + 10 : 1,
+        transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
         cursor: 'pointer',
-        marginBottom: isMobile ? '2.5rem' : 0,
-        boxShadow: isMobile ? '0 -10px 40px rgba(0,0,0,0.15)' : 'none',
+        marginBottom: isMobile ? '3.5rem' : 0,
+        boxShadow: isMobile ? '0 -15px 50px rgba(0,0,0,0.18)' : 'none',
+        willChange: isMobile ? 'transform, top' : 'auto',
       }}
       onMouseEnter={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.boxShadow = '0 24px 72px rgba(0,0,0,0.3)'; } }}
       onMouseLeave={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; } }}
