@@ -98,7 +98,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.5 }}
           style={{ fontSize: '1rem', color: 'var(--fg2)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 2.5rem' }}
         >
-          Product designer & front-end developer crafting user-centred interfaces. Currently at Webcastle, Kerala.
+          Specializing in user-centred interfaces and front-end engineering. Currently at Webcastle, Kerala.
         </motion.p>
 
         {/* CTAs */}
