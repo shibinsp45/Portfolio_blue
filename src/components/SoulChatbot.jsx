@@ -213,7 +213,7 @@ export default function SoulChatbot() {
       <button className="chat-fab" onClick={() => open ? closeChat() : openChat()} style={{ fontSize: '1.5rem' }}>
         {open
           ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-          : <img src={logo} alt="Soul" className="chat-logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
+          : <img src={logo} alt="Soul" className="chat-logo" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
         }
         {!open && <span className="fab-online" />}
       </button>
@@ -223,7 +223,7 @@ export default function SoulChatbot() {
         {/* Header */}
         <div className="chat-header">
           <div className="chat-avatar">
-            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '18px', height: '18px', objectFit: 'contain' }} />
+            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
             <span className="chat-avatar-online" />
           </div>
           <div style={{ flex: 1 }}>
@@ -239,7 +239,7 @@ export default function SoulChatbot() {
         <div className="chat-messages" ref={msgsRef}>
           {msgs.length === 0 && (
             <div className="chat-empty">
-              <div className="chat-empty-avatar"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '30px', height: '30px', objectFit: 'contain' }} /></div>
+              <div className="chat-empty-avatar"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} /></div>
               <div className="chat-empty-title">hey, I'm Soul 👋</div>
               <div className="chat-empty-sub">Shibin's AI assistant. Ask me anything about his work, skills, or how to reach him.</div>
               <div className="contact-chips">
@@ -259,7 +259,7 @@ export default function SoulChatbot() {
 
           {msgs.map((m, i) => (
             <div key={i} className={`msg-row${m.role === 'user' ? ' user' : ''}`}>
-              {m.role === 'assistant' && <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '14px', height: '14px', objectFit: 'contain' }} /></div>}
+              {m.role === 'assistant' && <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '18px', height: '18px', objectFit: 'contain' }} /></div>}
               <div className={`msg-bubble ${m.role === 'assistant' ? 'bot' : 'user'}`}>
                 {m.role === 'assistant' ? renderMarkdown(m.content) : m.content}
               </div>
@@ -268,7 +268,7 @@ export default function SoulChatbot() {
 
           {loading && !msgs.find(m => m._streaming) && (
             <div className="msg-row">
-              <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '14px', height: '14px', objectFit: 'contain' }} /></div>
+              <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '18px', height: '18px', objectFit: 'contain' }} /></div>
               <div className="typing-indicator">
                 <div className="typing-dot" /><div className="typing-dot" /><div className="typing-dot" />
               </div>

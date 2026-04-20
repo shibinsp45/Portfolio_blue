@@ -82,7 +82,7 @@ export default function Navbar({ dark, toggleTheme }) {
       >
         {/* Logo */}
         <a href="#home" onClick={e => handleNavClick(e, '#home')} style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={logo} alt="Shibin S P Logo" className="nav-logo" style={{ maxHeight: '56px', objectFit: 'contain' }} />
+          <img src={logo} alt="Shibin S P Logo" className="nav-logo" style={{ maxHeight: '72px', objectFit: 'contain' }} />
         </a>
 
         {/* Center pills */}
