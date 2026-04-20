@@ -65,11 +65,44 @@ export const projects = [
     type: 'ux', year: '2025', color: '#34d399',
   },
   {
+    title: 'ProMedic — Medicine Vending',
+    desc: 'Medicine vending machine case study – access medicines faster during emergencies.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/medicine-vending.png',
+    type: 'ux', year: '2024', color: '#0ea5e9',
+  },
+  {
+    title: 'Event Management Website',
+    desc: 'Crafting unforgettable user experiences for event management.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/event-mgmt.jpg',
+    type: 'web', year: '2024', color: '#7c3aed',
+  },
+  {
     title: 'Perfume Branding Collections',
     desc: 'AI-generated perfume branding with luxury bottle aesthetics.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png',
     type: 'ai', year: '2025', color: '#f472b6',
   },
+];
+
+export const blogs = [
+  {
+    title: 'How UI/UX Design Shapes the World',
+    desc: 'How UI/UX design decides whether we trust, and return to digital products.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/uiux-blog.webp',
+    year: '2025',
+  },
+  {
+    title: 'How Your Brain Shapes UX',
+    desc: 'How cognitive psychology influences user experience without you even realizing...',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/brain-ux-blog.png',
+    year: '2025',
+  },
+  {
+    title: 'Human-Computer Interaction',
+    desc: 'The science, principles, and real-world applications of how humans and computers interact.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/hci-blog.jpg',
+    year: '2025',
+  }
 ];
 
 export const experiences = [

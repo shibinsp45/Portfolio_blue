@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SoulChatbot from './components/SoulChatbot';
-import { Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer } from './components/Sections';
+import { Marquee, Skills, About, Career, Why, Testimonials, Blogs, Contact, Footer } from './components/Sections';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -48,6 +48,8 @@ export default function App() {
       <div className="section-divider" />
       <Career />
       <Testimonials />
+      <div className="section-divider" />
+      <Blogs />
       <Contact />
       <Footer />
       <BackToTop />

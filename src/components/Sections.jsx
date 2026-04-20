@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { skills, marqueeItems, experiences, testimonials } from '../data/index.js';
+import { skills, marqueeItems, experiences, testimonials, blogs } from '../data/index.js';
 
 const fadeUp = { hidden: { opacity: 0, y: 36 }, visible: { opacity: 1, y: 0 } };
 const vp = { once: true, margin: '-60px' };
@@ -224,6 +224,51 @@ export function Testimonials() {
 }
 
 /* ─── Contact ─── */
+export function Blogs() {
+  const vp = { once: true, amount: 0.2 };
+  const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
+
+  return (
+    <section id="blogs" className="section" style={{ background: 'var(--bg)' }}>
+      <div className="max-w">
+        <motion.div initial="hidden" whileInView="visible" viewport={vp} variants={fadeUp} transition={{ duration: 0.7 }}>
+          <div className="eyebrow" style={{ textAlign: 'center', margin: '0 auto' }}>Articles & Insights</div>
+          <h2 className="section-title" style={{ textAlign: 'center' }}>Featured Writing</h2>
+        </motion.div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', marginTop: '4rem' }}>
+          {blogs.map((blog, idx) => (
+            <motion.a 
+              key={idx}
+              href="#"
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={vp} 
+              variants={fadeUp} 
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              style={{ display: 'block', borderRadius: '1.5rem', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--surface)', transition: 'all 0.3s ease', textDecoration: 'none' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent2)'; e.currentTarget.style.transform = 'translateY(-8px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              <div style={{ height: '200px', overflow: 'hidden' }}>
+                <img src={blog.img} alt={blog.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ padding: '2rem' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: '0.75rem', fontWeight: 600 }}>{blog.year} • ARTICLE</div>
+                <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '1rem', fontWeight: 600 }}>{blog.title}</h3>
+                <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.6 }}>{blog.desc}</p>
+                <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent2)', fontSize: '0.875rem', fontWeight: 500 }}>
+                  Read Article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </div>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Contact() {
   const links = [
     { href: 'mailto:shibinsp45@gmail.com', label: 'Email', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg> },
