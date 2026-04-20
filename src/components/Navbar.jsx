@@ -4,7 +4,7 @@ import { X, Menu } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 const navLinks = [
-  { label: 'Work', href: '#work' },
+  { label: 'Project', href: '#work' },
   { label: 'About', href: '#about' },
   { label: 'Journey', href: '#journey' },
   { label: 'Contact', href: '#contact' },
@@ -129,10 +129,10 @@ export default function Navbar({ dark, toggleTheme }) {
             </svg>
           </button>
 
-          {/* Let's talk */}
+          {/* Connect */}
           <motion.a href="mailto:shibinsp45@gmail.com" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-            style={{ fontSize: '0.8125rem', padding: '8px 20px', borderRadius: 999, background: 'var(--accent)', color: '#fff', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
-            Let's talk
+            style={{ fontSize: '0.8125rem', padding: '10px 24px', borderRadius: 999, background: '#fff', color: '#1a1a20', border: '1px solid rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+            Connect
           </motion.a>
 
           {/* Mobile hamburger */}
@@ -167,7 +167,6 @@ export default function Navbar({ dark, toggleTheme }) {
             </button>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }}>
-              <div style={{ fontSize: '0.75rem', color: 'var(--accent2)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Navigation</div>
               {navLinks.map((link, idx) => {
                 const isActive = activeSection === link.href.replace('#', '');
                 return (
