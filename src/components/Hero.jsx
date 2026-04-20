@@ -109,13 +109,13 @@ export default function Hero() {
           style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
         >
           <motion.a href="#work" whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 30px', borderRadius: 999, background: 'var(--fg)', color: 'var(--bg)', fontSize: '0.9rem', fontWeight: 500, letterSpacing: '-0.01em', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
-            View my work
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'var(--fg)', color: 'var(--bg)', fontSize: '1rem', fontWeight: 600, letterSpacing: '-0.01em', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
+            Explore works
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
           </motion.a>
           <motion.a href="https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 30px', borderRadius: 999, background: 'transparent', color: 'var(--fg2)', fontSize: '0.9rem', border: '1px solid var(--border2)', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
-            Download CV
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'transparent', color: 'var(--fg)', fontSize: '1rem', border: '1.5px solid var(--border2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>
+            View Resume
           </motion.a>
         </motion.div>
 
