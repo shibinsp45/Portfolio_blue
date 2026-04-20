@@ -17,133 +17,143 @@ const groupedProjects = projects.reduce((acc, project) => {
   return acc;
 }, {});
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, index, isMobile }) {
   return (
-    <motion.div 
-      whileHover={{ y: -8 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+    <motion.div
+      initial={isMobile ? { opacity: 0, y: 20 } : false}
+      whileInView={isMobile ? { opacity: 1, y: 0 } : false}
+      viewport={{ once: true }}
       style={{
-        width: 'clamp(280px, 80vw, 400px)',
+        width: isMobile ? '100%' : 'clamp(280px, 80vw, 400px)',
         flexShrink: 0,
         borderRadius: 24, overflow: 'hidden',
         background: 'var(--glass-bg)',
-        backdropFilter: 'blur(24px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(150%)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
         border: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column',
-        position: 'relative',
-        transition: 'border-color 0.4s, box-shadow 0.4s',
+        position: isMobile ? 'sticky' : 'relative',
+        top: isMobile ? `${90 + (index * 10)}px` : 'auto',
+        transition: 'all 0.4s ease',
         cursor: 'pointer',
+        marginBottom: isMobile ? '2.5rem' : 0,
+        boxShadow: isMobile ? '0 -10px 40px rgba(0,0,0,0.15)' : 'none',
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.boxShadow = '0 24px 72px rgba(0,0,0,0.3)'; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
+      onMouseEnter={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.boxShadow = '0 24px 72px rgba(0,0,0,0.3)'; } }}
+      onMouseLeave={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; } }}
     >
       {/* Top Image */}
-      <div style={{ position: 'relative', aspectRatio: '16/11', background: 'var(--bg3)', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', aspectRatio: '16/10', background: 'var(--bg3)', overflow: 'hidden' }}>
         <img src={project.img} alt={project.title} 
-             style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s' }} 
+             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
              loading="lazy" 
              onError={e => { e.target.style.display = 'none'; }}
-             onMouseEnter={e => { e.target.style.transform = 'scale(1.04)'; }}
-             onMouseLeave={e => { e.target.style.transform = 'scale(1)'; }}
         />
+        <div style={{ position: 'absolute', top: 16, right: 16, padding: '6px 12px', borderRadius: 99, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', color: '#fff', fontSize: '10px', fontWeight: 600, letterSpacing: '0.05em' }}>
+          {project.year}
+        </div>
       </div>
 
       {/* Info Content */}
-      <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <h3 style={{ fontFamily: "'Inter', 'DM Sans', sans-serif", fontSize: '1.35rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.02em', marginBottom: '0.875rem', lineHeight: 1.25 }}>
-          {project.title.split('—')[0].trim()}
+      <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.01em', marginBottom: '0.5rem' }}>
+          {project.title}
         </h3>
-        <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.6, flex: 1, marginBottom: '2rem' }}>
+        <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.6, flex: 1, marginBottom: '1.5rem' }}>
           {project.desc}
         </p>
 
-        {/* Bottom Domain Pill */}
-        <div style={{ alignSelf: 'flex-start' }}>
-          <span style={{ fontSize: '0.7rem', padding: '6px 14px', borderRadius: 999, background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--fg)', fontWeight: 500, letterSpacing: '0.02em' }}>
-            {typeLabels[project.type] || 'Project Task'}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.75rem', padding: '5px 12px', borderRadius: 99, background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--fg2)' }}>
+            {typeLabels[project.type]}
           </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--accent2)', fontSize: '0.8125rem', fontWeight: 500 }}>
+            Case Study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </div>
         </div>
       </div>
     </motion.div>
   );
 }
 
-function HorizontalDomainScroll({ domainType, items }) {
+function HorizontalDomainScroll({ domainType, items, isMobile }) {
   const targetRef = useRef(null);
   const trackRef = useRef(null);
   const [scrollRange, setScrollRange] = useState(0);
 
   const { scrollYProgress } = useScroll({ target: targetRef });
 
-  // Recompute horizontally scrollable distance on mount and resize
   useEffect(() => {
+    if (isMobile) return;
     const computeRange = () => {
       if (trackRef.current) {
-        const scrollWidth = trackRef.current.scrollWidth;
-        const clientWidth = trackRef.current.parentElement.clientWidth;
-        setScrollRange(Math.max(0, scrollWidth - clientWidth));
+        setScrollRange(Math.max(0, trackRef.current.scrollWidth - trackRef.current.parentElement.clientWidth));
       }
     };
     computeRange();
     window.addEventListener('resize', computeRange);
     return () => window.removeEventListener('resize', computeRange);
-  }, [items]);
+  }, [items, isMobile]);
 
-  // Smooth physical translation tied vertically
   const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
-
-  // Dynamically calculate wrapping height to provide enough scroll space without jumping, but cap for small tracks
-  const containerHeight = scrollRange > 0 ? `calc(100vh + ${scrollRange}px)` : 'auto';
   
-  // If it doesn't need scrolling (e.g. 1 item), disable the sticky wrapper natively
-  const isSticky = scrollRange > 0;
+  if (isMobile) {
+    return (
+      <div style={{ marginBottom: '5rem', padding: '0 1.5rem' }}>
+        <h3 style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '2rem' }}>
+          {domainHeaders[domainType]}
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {items.map((project, idx) => (
+            <ProjectCard key={project.title} project={project} index={idx} isMobile={true} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
+  const isSticky = scrollRange > 0;
   return (
-    <section ref={targetRef} style={{ height: containerHeight, position: 'relative', marginBottom: isSticky ? 0 : '4rem' }}>
+    <section ref={targetRef} style={{ height: isSticky ? `calc(100vh + ${scrollRange}px)` : 'auto', position: 'relative', marginBottom: isSticky ? 0 : '4rem' }}>
       <div style={{ position: isSticky ? 'sticky' : 'relative', top: 0, height: isSticky ? '100vh' : 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
-        
-        {/* Fixed Title Header */}
         <div className="max-w" style={{ width: '100%', marginBottom: '2.5rem' }}>
-           <h3 style={{ fontFamily: "'Inter', 'DM Sans', sans-serif", fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.02em' }}>
-            {domainHeaders[domainType] || 'Special Projects'}
+           <h3 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontWeight: 600, color: 'var(--fg)' }}>
+            {domainHeaders[domainType]}
           </h3>
         </div>
-
-        {/* Sliding Horizontal Cards Track */}
         <div style={{ width: '100%', overflowX: isSticky ? 'visible' : 'auto', scrollbarWidth: 'none' }}>
            <motion.div ref={trackRef} style={{ x: isSticky ? x : 0, display: 'flex', gap: '2rem', paddingLeft: 'max(2rem, calc((100vw - 1200px) / 2))', paddingRight: 'max(2rem, calc((100vw - 1200px) / 2))', width: 'max-content' }}>
               {items.map((project) => (
-                <ProjectCard key={project.title} project={project} />
+                <ProjectCard key={project.title} project={project} isMobile={false} />
               ))}
            </motion.div>
         </div>
-
       </div>
     </section>
   );
 }
 
 export default function Projects() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 900);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section id="work" className="section section--alt" style={{ padding: '6rem 0' }}>
-      
-      {/* Global Master Header */}
-      <div className="max-w" style={{ padding: '0 2rem', marginBottom: '2rem' }}>
-        <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.7 }}
-          >
-            <div className="eyebrow">Selected work</div>
-            <h2 className="section-title">Projects</h2>
+      <div className="max-w" style={{ padding: '0 2rem', marginBottom: '4rem' }}>
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <div className="eyebrow">Selected work</div>
+          <h2 className="section-title">Case Studies</h2>
         </motion.div>
       </div>
 
-      {/* Render a sticky scroll tracker for EACH mapped domain */}
       {Object.entries(groupedProjects).map(([domain, items]) => (
-        <HorizontalDomainScroll key={domain} domainType={domain} items={items} />
+        <HorizontalDomainScroll key={domain} domainType={domain} items={items} isMobile={isMobile} />
       ))}
-      
     </section>
   );
 }

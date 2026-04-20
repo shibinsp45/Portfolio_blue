@@ -47,9 +47,10 @@ export default function App() {
       <Skills />
       <div className="section-divider" />
       <Career />
-      <Testimonials />
       <div className="section-divider" />
       <Blogs />
+      <div className="section-divider" />
+      <Testimonials />
       <Contact />
       <Footer />
       <BackToTop />
