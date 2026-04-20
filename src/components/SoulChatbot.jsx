@@ -9,19 +9,29 @@ function useSounds() {
     if (ctx.current.state === 'suspended') ctx.current.resume();
     return ctx.current;
   };
-  const tn = (f, d, tp = 'sine', v = 0.07, dl = 0) => {
+  const tn = (f, d, tp = 'square', v = 0.05, dl = 0) => {
     const c = getCtx(); if (!c) return;
     const t = c.currentTime + dl, o = c.createOscillator(), g = c.createGain();
     o.type = tp; o.frequency.setValueAtTime(f, t);
-    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
     o.connect(g).connect(c.destination); o.start(t); o.stop(t + d);
   };
   return {
-    open: () => { tn(480, .1, 'sine', .09); tn(640, .08, 'sine', .07, .06); },
-    close: () => { tn(520, .08, 'sine', .06); tn(380, .1, 'sine', .05, .05); },
-    send: () => { tn(600, .06, 'triangle', .05); tn(800, .05, 'triangle', .04, .03); },
-    recv: () => { tn(830, .12, 'sine', .08); tn(1050, .1, 'sine', .05, .1); },
-    bub: () => tn(440, .1, 'sine', .06),
+    open: () => { 
+      // Level start-ish
+      tn(659, .1); tn(659, .1, 'square', .05, .15); tn(659, .1, 'square', .05, .3);
+      tn(523, .1, 'square', .05, .45); tn(659, .1, 'square', .05, .6); tn(783, .1, 'square', .05, .75);
+    },
+    close: () => { tn(330, .1, 'sine'); tn(262, .15, 'sine', .05, .08); },
+    send: () => { 
+      // Small jump
+      tn(200, .05, 'triangle'); tn(400, .1, 'triangle', .05, .05); tn(800, .1, 'triangle', .05, .1);
+    },
+    recv: () => { 
+      // Coin sound
+      tn(987, .08, 'sine', .06); tn(1318, .4, 'sine', .05, .08); 
+    },
+    bub: () => { tn(1174, .05, 'sine', .04); tn(1567, .2, 'sine', .03, .05); },
   };
 }
 
