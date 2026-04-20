@@ -13,12 +13,50 @@ const navLinks = [
 export default function Navbar({ dark, toggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Track active section via scroll position
+  useEffect(() => {
+    const sectionIds = navLinks.map(l => l.href.replace('#', ''));
+
+    const onScroll = () => {
+      const scrollPos = window.scrollY + 150;
+      // Sort sections by their actual position on the page
+      const sorted = sectionIds
+        .map(id => ({ id, el: document.getElementById(id) }))
+        .filter(s => s.el)
+        .sort((a, b) => a.el.offsetTop - b.el.offsetTop);
+
+      let currentId = '';
+      for (const { id, el } of sorted) {
+        if (el.offsetTop <= scrollPos) {
+          currentId = id;
+        }
+      }
+      setActiveSection(currentId);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // initial check
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Smooth scroll with offset for anchor clicks
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    setMobileOpen(false);
+  };
 
   return (
     <>
@@ -40,11 +78,10 @@ export default function Navbar({ dark, toggleTheme }) {
           WebkitBackdropFilter: scrolled ? 'blur(28px) saturate(180%)' : 'none',
           borderBottom: scrolled ? (dark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)') : '1px solid transparent',
           boxShadow: scrolled ? (dark ? '0 1px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)' : '0 1px 40px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.6)') : 'none',
-
         }}
       >
         {/* Logo */}
-        <a href="#home" style={{ display: 'flex', alignItems: 'center' }}>
+        <a href="#home" onClick={e => handleNavClick(e, '#home')} style={{ display: 'flex', alignItems: 'center' }}>
           <img src={logo} alt="Shibin S P Logo" className="nav-logo" style={{ maxHeight: '56px', objectFit: 'contain' }} />
         </a>
 
@@ -55,17 +92,25 @@ export default function Navbar({ dark, toggleTheme }) {
           border: dark ? '1px solid rgba(255,255,255,0.09)' : '1px solid rgba(0,0,0,0.08)',
           backdropFilter: 'blur(20px)',
         }}>
-          {navLinks.map(link => (
-            <a key={link.label} href={link.href} style={{
-              fontSize: '0.8125rem', padding: '7px 18px', borderRadius: 999,
-              color: 'var(--fg2)', transition: 'all 0.2s', fontWeight: 400,
-            }}
-              onMouseEnter={e => { e.target.style.color = 'var(--fg)'; e.target.style.background = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'; }}
-              onMouseLeave={e => { e.target.style.color = 'var(--fg2)'; e.target.style.background = 'transparent'; }}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map(link => {
+            const isActive = activeSection === link.href.replace('#', '');
+            return (
+              <a key={link.label} href={link.href}
+                onClick={e => handleNavClick(e, link.href)}
+                style={{
+                  fontSize: '0.8125rem', padding: '7px 18px', borderRadius: 999,
+                  color: isActive ? 'var(--fg)' : 'var(--fg2)',
+                  transition: 'all 0.25s',
+                  fontWeight: isActive ? 500 : 400,
+                  background: isActive ? (dark ? 'rgba(124,109,250,0.12)' : 'rgba(124,109,250,0.08)') : 'transparent',
+                }}
+                onMouseEnter={e => { if (!isActive) { e.target.style.color = 'var(--fg)'; e.target.style.background = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'; } }}
+                onMouseLeave={e => { if (!isActive) { e.target.style.color = 'var(--fg2)'; e.target.style.background = 'transparent'; } }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Right controls */}
@@ -111,15 +156,18 @@ export default function Navbar({ dark, toggleTheme }) {
               style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--border)', background: 'var(--surface)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fg2)' }}>
               <X size={16} />
             </button>
-            {navLinks.map(link => (
-              <a key={link.label} href={link.href} onClick={() => setMobileOpen(false)}
-                style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: 'var(--fg2)', transition: 'color 0.2s', letterSpacing: '-0.02em' }}
-                onMouseEnter={e => e.target.style.color = 'var(--fg)'}
-                onMouseLeave={e => e.target.style.color = 'var(--fg2)'}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map(link => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
+                <a key={link.label} href={link.href} onClick={e => handleNavClick(e, link.href)}
+                  style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: isActive ? 'var(--accent2)' : 'var(--fg2)', transition: 'color 0.2s', letterSpacing: '-0.02em' }}
+                  onMouseEnter={e => e.target.style.color = 'var(--fg)'}
+                  onMouseLeave={e => e.target.style.color = isActive ? 'var(--accent2)' : 'var(--fg2)'}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>

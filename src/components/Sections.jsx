@@ -101,7 +101,7 @@ export function About() {
           {/* Content */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8, delay: 0.2 }}>
             <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.8, marginTop: '0.5rem' }}>
-              Product designer & front-end developer crafting user-centred interfaces. USING AI AS A PARTNER IN DESIGN AND DEV ,
+              Product designer & front-end developer crafting user-centred interfaces. Using AI as a partner in design and development.
             </p>
 
             <div style={{ fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace", color: 'var(--fg3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem', marginTop: '2rem' }}>Tools I use daily</div>

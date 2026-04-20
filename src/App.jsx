@@ -5,7 +5,28 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SoulChatbot from './components/SoulChatbot';
-import { Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer, QuoteSection } from './components/Sections';
+import { Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer } from './components/Sections';
+
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <button
+      className={`back-to-top${visible ? ' visible' : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Back to top"
+      title="Back to top"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+  );
+}
 
 export default function App() {
   const [dark, setDark] = useState(true);
@@ -19,14 +40,17 @@ export default function App() {
       <ScrollProgress />
       <Navbar dark={dark} toggleTheme={() => setDark(d => !d)} />
       <Hero />
+      <div className="section-divider" />
       <About />
-      <QuoteSection />
       <Projects />
+      <div className="section-divider" />
       <Skills />
+      <div className="section-divider" />
       <Career />
       <Testimonials />
       <Contact />
       <Footer />
+      <BackToTop />
       <SoulChatbot />
     </div>
   );
