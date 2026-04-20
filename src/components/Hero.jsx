@@ -106,15 +106,18 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.7, type: 'spring', stiffness: 100 }}
-          style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
+          style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'nowrap' }}
+          className="hero-buttons"
         >
           <motion.a href="#work" whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'var(--fg)', color: 'var(--bg)', fontSize: '1rem', fontWeight: 600, letterSpacing: '-0.01em', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
+            className="hero-btn primary"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'var(--fg)', color: 'var(--bg)', fontSize: '1rem', fontWeight: 600, letterSpacing: '-0.01em', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", whiteSpace: 'nowrap' }}>
             Explore works
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
           </motion.a>
           <motion.a href="https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'transparent', color: 'var(--fg)', fontSize: '1rem', border: '1.5px solid var(--border2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif" }}>
+            className="hero-btn secondary"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', borderRadius: 999, background: 'transparent', color: 'var(--fg)', fontSize: '1rem', border: '1.5px solid var(--border2)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif", whiteSpace: 'nowrap' }}>
             View Resume
           </motion.a>
         </motion.div>
