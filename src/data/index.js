@@ -24,63 +24,59 @@ export const skills = [
 export const projects = [
   {
     title: 'Billzy — Invoice Generator App',
-    desc: 'Mobile invoice app – create bills faster, manage your shop smarter.',
+    desc: 'Full-featured mobile invoice application for small business owners. Includes client management, automated tax calculation, and professional PDF generation.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/invoice-generator.jpg',
     type: 'ux', year: '2025', color: '#7c6dfa',
+    behance: 'https://www.behance.net/shibinsp'
   },
   {
     title: 'Fudit — AI Food Delivery App',
-    desc: 'AI-powered food delivery – satisfy your cravings, delivered to your door.',
+    desc: 'Revolutionizing food discovery with AI-powered recommendations, mood-based searches, and a seamless checkout experience.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/fudit-app.png',
     type: 'ux', year: '2024', color: '#a78bfa',
+    behance: 'https://www.behance.net/gallery/191764619/Fudit-AI-Food-delivery-App-Design-Case-Study'
   },
   {
     title: 'AJ Delight Point Branding',
-    desc: 'Complete brand identity for a bakery — packaging, logo, visual system.',
+    desc: 'A premium visual identity for a bakery chain, focusing on organic textures, warm palettes, and artisanal typography.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/aj-delight-point.png',
     type: 'brand', year: '2026', color: '#fbbf24',
-  },
-  {
-    title: 'GetFit — Fitness Tracker',
-    desc: 'Fitness tracking app — where passion meets performance.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/fitness-app.jpg',
-    type: 'ux', year: '2024', color: '#4ade80',
-  },
-  {
-    title: 'ElitePath Dashboard',
-    desc: 'Student progress tracking dashboard with gamified achievements.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/elitepath.png',
-    type: 'web', year: '2024', color: '#38bdf8',
-  },
-  {
-    title: 'Tools — Emergency Service App',
-    desc: 'On-demand tools and repair service. We are here to help.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/tools-app.png',
-    type: 'ux', year: '2025', color: '#fb7185',
+    behance: 'https://www.behance.net/shibinsp'
   },
   {
     title: 'GroPlan — Grocery Planner',
-    desc: 'Smart grocery and meal planning — your intelligent kitchen companion.',
+    desc: 'Smart meal planner that syncs with local inventory and automatically generates shopping lists based on diet goals.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/grocery-app.jpg',
     type: 'ux', year: '2025', color: '#34d399',
+    behance: 'https://www.behance.net/shibinsp'
+  },
+  {
+    title: 'ElitePath Dashboard',
+    desc: 'Educational platform UI for student progress tracking, featuring real-time analytics and gamified rewards.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/elitepath.png',
+    type: 'web', year: '2024', color: '#38bdf8',
+    behance: 'https://www.behance.net/shibinsp'
   },
   {
     title: 'ProMedic — Medicine Vending',
-    desc: 'Medicine vending machine case study – access medicines faster during emergencies.',
+    desc: 'A hardware-software integration study for emergency medicine access, featuring touch-screen UI design.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/medicine-vending.png',
     type: 'ux', year: '2024', color: '#0ea5e9',
+    behance: 'https://www.behance.net/shibinsp'
   },
   {
-    title: 'Event Management Website',
-    desc: 'Crafting unforgettable user experiences for event management.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/event-mgmt.jpg',
-    type: 'web', year: '2024', color: '#7c3aed',
+    title: 'TeaTym Branding',
+    desc: 'Minimalist branding for a contemporary tea lounge, blending traditional tea culture with modern aesthetics.',
+    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png', 
+    type: 'brand', year: '2025', color: '#fb7185',
+    behance: 'https://www.behance.net/shibinsp'
   },
   {
     title: 'Perfume Branding Collections',
-    desc: 'AI-generated perfume branding with luxury bottle aesthetics.',
+    desc: 'Using Midjourney and Figma to create high-end perfume packaging concepts and luxury landing pages.',
     img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png',
     type: 'ai', year: '2025', color: '#f472b6',
+    behance: 'https://www.behance.net/shibinsp'
   },
 ];
 
