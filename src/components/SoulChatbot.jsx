@@ -240,9 +240,6 @@ export default function SoulChatbot() {
             <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.01em' }}>Soul</div>
             <div className="chat-header-status">Online now</div>
           </div>
-          <button className="chat-close-btn" onClick={closeChat}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-          </button>
         </div>
 
         {/* Messages */}
