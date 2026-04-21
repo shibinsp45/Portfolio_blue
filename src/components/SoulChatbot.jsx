@@ -233,15 +233,15 @@ export default function SoulChatbot() {
         {/* Header */}
         <div className="chat-header">
           <div className="chat-avatar">
-            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
             <span className="chat-avatar-online" />
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.01em' }}>Soul</div>
+            <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.01em' }}>Soul</div>
             <div className="chat-header-status">Online now</div>
           </div>
           <button className="chat-close-btn" onClick={closeChat}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
 
