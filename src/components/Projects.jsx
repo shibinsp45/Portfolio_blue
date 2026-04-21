@@ -33,13 +33,14 @@ function ProjectCard({ project, index, isMobile }) {
         border: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column',
         position: isMobile ? 'sticky' : 'relative',
-        top: isMobile ? `${80 + (index * 6)}px` : 'auto',
+        top: isMobile ? `${120 + (index * 20)}px` : 'auto',
         zIndex: isMobile ? index + 10 : 1,
-        transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+        transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease',
         cursor: 'pointer',
-        marginBottom: isMobile ? '3.5rem' : 0,
-        boxShadow: isMobile ? '0 -15px 50px rgba(0,0,0,0.18)' : 'none',
+        marginBottom: isMobile ? '4rem' : 0,
+        boxShadow: isMobile ? '0 -10px 40px rgba(0,0,0,0.2), 0 20px 50px rgba(0,0,0,0.3)' : 'none',
         willChange: isMobile ? 'transform, top' : 'auto',
+        transform: isMobile ? `scale(${1 - (index * 0.01)})` : 'none',
       }}
       onMouseEnter={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border2)'; e.currentTarget.style.boxShadow = '0 24px 72px rgba(0,0,0,0.3)'; } }}
       onMouseLeave={e => { if(!isMobile) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; } }}
@@ -101,11 +102,22 @@ function HorizontalDomainScroll({ domainType, items, isMobile }) {
   
   if (isMobile) {
     return (
-      <div style={{ marginBottom: '5rem', padding: '0 1.5rem' }}>
-        <h3 style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '2rem' }}>
-          {domainHeaders[domainType]}
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+      <div style={{ marginBottom: '8rem', padding: '0 1rem' }}>
+        <div style={{ 
+          position: 'sticky', 
+          top: '80px', 
+          zIndex: 5, 
+          background: 'var(--bg2)', 
+          padding: '1rem 0',
+          marginBottom: '2rem',
+          borderBottom: '1px solid var(--border)',
+          backdropFilter: 'blur(10px)'
+        }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--fg)', margin: 0 }}>
+            {domainHeaders[domainType]}
+          </h3>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {items.map((project, idx) => (
             <ProjectCard key={project.title} project={project} index={idx} isMobile={true} />
           ))}
