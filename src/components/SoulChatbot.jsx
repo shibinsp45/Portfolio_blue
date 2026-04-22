@@ -233,20 +233,23 @@ export default function SoulChatbot() {
         {/* Header */}
         <div className="chat-header">
           <div className="chat-avatar">
-            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+            <img src={logo} alt="Soul" className="chat-logo" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'none' }} />
             <span className="chat-avatar-online" />
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.01em' }}>Soul</div>
+          <div style={{ flex: 1, marginLeft: '4px' }}>
+            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--fg)', letterSpacing: '-0.02em' }}>Soul</div>
             <div className="chat-header-status">Online now</div>
           </div>
+          <button className="chat-close-btn" onClick={closeChat}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
         </div>
 
         {/* Messages */}
         <div className="chat-messages" ref={msgsRef}>
           {msgs.length === 0 && (
             <div className="chat-empty">
-              <div className="chat-empty-avatar"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '64px', height: '64px', objectFit: 'contain' }} /></div>
+              <div className="chat-empty-avatar"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '56px', height: '56px', objectFit: 'contain', filter: 'none' }} /></div>
               <div className="chat-empty-title">hey, I'm Soul 👋</div>
               <div className="chat-empty-sub">Shibin's AI assistant. Ask me anything about his work, skills, or how to reach him.</div>
               <div className="contact-chips">
@@ -256,17 +259,24 @@ export default function SoulChatbot() {
                   </a>
                 ))}
               </div>
-              <div className="quick-questions">
-                {quickQs.map(q => (
-                  <button key={q} className="quick-q" onClick={() => sendMsg(q)}>{q}</button>
-                ))}
+              <div style={{ marginTop: '1rem', width: '100%' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.75rem', textAlign: 'center' }}>Suggested</div>
+                <div className="quick-questions">
+                  {quickQs.map(q => (
+                    <button key={q} className="quick-q" onClick={() => sendMsg(q)}>{q}</button>
+                  ))}
+                </div>
               </div>
             </div>
           )}
 
           {msgs.map((m, i) => (
             <div key={i} className={`msg-row${m.role === 'user' ? ' user' : ''}`}>
-              {m.role === 'assistant' && <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} /></div>}
+              {m.role === 'assistant' && (
+                <div className="msg-bot-icon">
+                  <img src={logo} alt="Soul" className="chat-logo" style={{ width: '18px', height: '18px', objectFit: 'contain', filter: 'none' }} />
+                </div>
+              )}
               <div className={`msg-bubble ${m.role === 'assistant' ? 'bot' : 'user'}`}>
                 {m.role === 'assistant' ? renderMarkdown(m.content) : m.content}
               </div>
@@ -275,7 +285,9 @@ export default function SoulChatbot() {
 
           {loading && !msgs.find(m => m._streaming) && (
             <div className="msg-row">
-              <div className="msg-bot-icon"><img src={logo} alt="Soul" className="chat-logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} /></div>
+              <div className="msg-bot-icon">
+                <img src={logo} alt="Soul" className="chat-logo" style={{ width: '18px', height: '18px', objectFit: 'contain', filter: 'none' }} />
+              </div>
               <div className="typing-indicator">
                 <div className="typing-dot" /><div className="typing-dot" /><div className="typing-dot" />
               </div>
@@ -283,7 +295,7 @@ export default function SoulChatbot() {
           )}
 
           {!loading && lastBotMsg && msgs.length > 0 && (
-            <div className="followup-row">
+            <div className="followup-row" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
               {getSuggestions(lastBotMsg.content).map(s => (
                 <button key={s} className="followup-btn" onClick={() => sendMsg(s)}>{s}</button>
               ))}
@@ -296,13 +308,13 @@ export default function SoulChatbot() {
           <div className="chat-input-wrap">
             <textarea
               ref={taRef} value={input} rows={1}
-              placeholder="Message Soul…"
+              placeholder="Ask anything…"
               disabled={loading}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(input); } }}
             />
             <button className="chat-send-btn" disabled={!input.trim() || loading} onClick={() => sendMsg(input)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
             </button>
           </div>
           <div className="chat-disclaimer">Soul can make mistakes. Verify important info.</div>

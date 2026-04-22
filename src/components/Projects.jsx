@@ -108,7 +108,7 @@ function ProjectDetail({ project, onClose }) {
   );
 }
 
-function ProjectCard({ project, index, onClick }) {
+function ProjectCard({ project, index, onClick, isMobile }) {
   const cardRef = useRef(null);
 
   return (
@@ -121,18 +121,19 @@ function ProjectCard({ project, index, onClick }) {
       style={{
         width: '100%', maxWidth: '1100px',
         margin: '0 auto',
-        borderRadius: 32, overflow: 'hidden',
+        borderRadius: isMobile ? 24 : 32, 
+        overflow: 'hidden',
         background: 'var(--glass-bg)',
         backdropFilter: 'blur(32px) saturate(180%)',
         WebkitBackdropFilter: 'blur(32px) saturate(180%)',
         border: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column',
-        position: 'sticky',
-        top: `${100 + (index * 20)}px`,
+        position: isMobile ? 'relative' : 'sticky',
+        top: isMobile ? '0' : `${100 + (index * 20)}px`,
         zIndex: index + 10,
         boxShadow: '0 -20px 80px rgba(0,0,0,0.4)',
         cursor: 'pointer',
-        marginBottom: '15rem', // Creates space for stacking
+        marginBottom: isMobile ? '4rem' : '15rem', 
         transition: 'transform 0.3s ease, border-color 0.3s ease',
       }}
       whileHover={{ y: -5, borderColor: 'var(--border2)' }}
@@ -157,6 +158,13 @@ function ProjectCard({ project, index, onClick }) {
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (selectedProject) {
@@ -189,7 +197,13 @@ export default function Projects() {
              </div>
              <div style={{ position: 'relative' }}>
                {items.map((project, idx) => (
-                 <ProjectCard key={project.title} project={project} index={idx} onClick={setSelectedProject} />
+                 <ProjectCard 
+                   key={project.title} 
+                   project={project} 
+                   index={idx} 
+                   onClick={setSelectedProject}
+                   isMobile={isMobile}
+                 />
                ))}
              </div>
           </div>
