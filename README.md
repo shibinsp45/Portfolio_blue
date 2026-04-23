@@ -6,17 +6,18 @@ Personal portfolio website built with **React + Vite + Framer Motion**.
 
 - **Hero section** — center-aligned with animated starfield, ambient glows & parallax
 - **Glassmorphism Navbar** — frosted-glass effect on scroll, smooth transitions
+- **Domain-Based Projects** — horizontal scroll carousels categorized by domain (UI/UX, Web, Branding, AI) with parallax staggering
 - **Marquee ticker** — scrolling skills band
 - **Skills cloud** — animated tag cloud with hover effects
-- **Stacking scroll projects** — sticky card stack with parallax scale per project
 - **About** — profile photo with live "Open to work" badge
-- **Career timeline** — animated experience cards
+- **Career timeline** — animated experience cards with subtle dark-theme hover states
 - **Testimonials** — star-rated recommendation cards
+- **Blogs & Insights** — clean article layout
 - **Contact** — minimal CTA with direct links
 - **Soul Chatbot** — AI assistant (Anthropic Claude Haiku) with streaming, sounds, follow-up suggestions, contact chips
 - **Scroll progress bar**
 - **Dark/Light mode toggle**
-- **Fully responsive**
+- **Fully responsive** — optimized across mobile, tablet, and desktop
 
 ## 🚀 Quick Start
 
@@ -75,8 +76,8 @@ src/
 ├── components/
 │   ├── Navbar.jsx          # Glassmorphism nav
 │   ├── Hero.jsx            # Center-aligned hero with starfield
-│   ├── Projects.jsx        # Stacking scroll cards
-│   ├── Sections.jsx        # Marquee, Skills, About, Career, Why, Testimonials, Contact, Footer
+│   ├── Projects.jsx        # Domain-based horizontal scroll carousels
+│   ├── Sections.jsx        # Marquee, Skills, About, Career, Why, Testimonials, Blogs, Contact, Footer
 │   ├── SoulChatbot.jsx     # AI chatbot with streaming
 │   └── ScrollProgress.jsx  # Top progress bar
 ├── data/
@@ -115,9 +116,10 @@ src/
 ## 📝 Customisation
 
 All content is in `src/data/index.js`:
-- `projects` — your work
+- `projects` — your work, categorized by `type`
 - `experiences` — career history  
 - `testimonials` — recommendations
+- `blogs` — articles & insights
 - `skills` — skill tags
 - `marqueeItems` — ticker text
 

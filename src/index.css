@@ -40,6 +40,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   overflow-x: hidden; 
   width: 100%;
+  -webkit-tap-highlight-color: transparent;
   transition:background 0.3s, color 0.3s; 
 }
 
@@ -68,8 +69,14 @@ a { color:inherit; text-decoration:none; }
 
 .live-dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex-shrink:0; animation:blink 2s ease-in-out infinite; }
 
-.section { padding:8rem 2rem; position:relative; scroll-margin-top:80px; }
-@media(max-width:900px) { .section { padding:5rem 1.25rem; } }
+.section { padding:8rem var(--section-px, 2rem); position:relative; scroll-margin-top:80px; width: 100%; box-sizing: border-box; }
+@media(max-width:900px) { .section { padding:5rem var(--section-px, 1.5rem); } }
+@media(max-width:480px) { .section { padding:4rem var(--section-px, 1.25rem); } }
+
+.section-px { padding-left: var(--section-px, 2rem); padding-right: var(--section-px, 2rem); }
+:root { --section-px: 2rem; }
+@media(max-width:900px) { :root { --section-px: 1.5rem; } }
+@media(max-width:480px) { :root { --section-px: 1.25rem; } }
 
 .nav-link-active { color:var(--fg)!important; background:rgba(124,109,250,.12)!important; }
 
@@ -81,7 +88,7 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 
 .section-divider { width:100%; max-width:1200px; margin:0 auto; height:1px; background:linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border2) 50%, var(--border) 80%, transparent 100%); }
 .section--alt { background:var(--bg2); }
-.max-w { max-width:1200px; margin:0 auto; }
+.max-w { width: 100%; max-width:1200px; margin:0 auto; box-sizing: border-box; }
 
 .eyebrow { font-size:.7rem; font-family:'JetBrains Mono',monospace; color:var(--accent); letter-spacing:.12em; text-transform:uppercase; margin-bottom:1.25rem; display:flex; align-items:center; gap:10px; }
 .eyebrow::before { content:''; width:24px; height:1px; background:var(--accent); }
@@ -144,16 +151,18 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 .fab-online { position:absolute; bottom:3px; right:3px; width:12px; height:12px; background:var(--green); border-radius:50%; border:2px solid var(--bg); }
 .chat-window { position:fixed; z-index:299; display:flex; flex-direction:column; background:var(--glass-bg); backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px); border:1px solid var(--border); border-radius:32px; box-shadow:0 32px 80px rgba(0,0,0,0.4); overflow:hidden; transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity:0; transform:translateY(30px) scale(.95); pointer-events:none; bottom:90px; right:24px; width:380px; height:min(600px, 80vh); color: var(--fg); }
 .chat-window.open { opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
-@media(max-width:600px) { 
-  .chat-window { bottom:0; right:0; left:0; top:0; width:100%; height:100dvh; border-radius:0; border:none; z-index: 1000; } 
-  .chat-bubble, .chat-fab { right:20px; } 
+@media(max-width:768px) { 
+  .chat-window { bottom:0; right:0; left:0; top:0; width:100%; height:100%; height:100dvh; border-radius:0; border:none; z-index: 1000; transform: none !important; } 
+  .chat-bubble, .chat-fab { right:16px; bottom: 16px; } 
+  .chat-bubble { bottom: 84px; }
 }
 .chat-header { display:flex; align-items:center; gap:12px; padding:18px 24px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.03); flex-shrink:0; }
 .chat-avatar { width:38px; height:38px; border-radius:50%; border:2px solid var(--accent); flex-shrink:0; background:var(--surface); display:flex; align-items:center; justify-content:center; position:relative; }
 .chat-avatar-online { position:absolute; bottom:-1px; right:-1px; width:11px; height:11px; background:var(--green); border-radius:50%; border:2px solid var(--bg); }
 .chat-header-status { font-size:.7rem; color:var(--green); display:flex; align-items:center; gap:4px; font-weight: 500; }
 .chat-header-status::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2s ease-in-out infinite; }
-.chat-close-btn { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:var(--surface); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--fg2); transition:all .2s; }
+.chat-close-btn { width:40px; height:40px; border-radius:50%; border:1px solid var(--border); background:var(--surface); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--fg2); transition:all .2s; flex-shrink: 0; }
+@media(max-width: 768px) { .chat-close-btn { width: 44px; height: 44px; } }
 .chat-messages { flex:1; overflow-y:auto; padding:24px 20px; display:flex; flex-direction:column; gap:20px; scroll-behavior:smooth; background: transparent; }
 .chat-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:20px; padding:24px; }
 .chat-empty-avatar { width:64px; height:64px; border-radius:24px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; background: var(--surface2); }
@@ -185,20 +194,21 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 
 /* Mobile & Tablet Scroll Fixes */
 @media (max-width: 900px) {
-  .section { padding: 5rem 1.25rem; }
-  .section-title { font-size: 2.5rem !important; margin-bottom: 2.5rem !important; }
-  .hero-buttons { flex-wrap: nowrap !important; gap: 0.5rem !important; width: 100%; justify-content: center; }
-  .hero-btn { padding: 12px 20px !important; font-size: 0.875rem !important; flex-shrink: 1; min-width: 0; }
+  .section-title { font-size: clamp(2rem, 8vw, 3rem) !important; margin-bottom: 2rem !important; }
+  .hero-buttons { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+  .hero-btn { width: 100%; justify-content: center; }
+  .mobile-only { display: block !important; }
 }
 
-@media (max-width: 1024px) {
-  .max-w { padding: 0 1.5rem; }
+@media (min-width: 901px) {
+  .mobile-only { display: none !important; }
 }
 
 @media (max-width: 480px) {
-  .hero-buttons { gap: 0.35rem !important; }
-  .hero-btn { padding: 10px 14px !important; font-size: 0.75rem !important; }
+  .hero-buttons { gap: 0.75rem !important; }
+  .hero-btn { padding: 14px 24px !important; font-size: 0.9rem !important; }
   .chat-window { height: 100% !important; height: 100dvh !important; }
+  .section { padding: 4rem 1.25rem; }
 }
 
 /* Ensure all interactive elements are reachable */

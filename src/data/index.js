@@ -105,17 +105,17 @@ export const experiences = [
   {
     role: 'UI/UX Designer and Mentor', company: 'Zoople Technologies', period: '2025 — Present',
     desc: 'Leading end-to-end product design, AI-driven social insights, and mentoring junior designers.',
-    active: true, hoverColor: '#000000',
+    active: true, hoverColor: '#0e1614', // Subtle dark mint/green for active role
   },
   {
     role: 'UI/UX Designer and Mentor', company: 'Kreative Sparkz', period: '2024',
     desc: 'Designed user-centred UI/UX solutions. Led user research, developed interactive prototypes and wireframes.',
-    active: false, hoverColor: '#ef4444',
+    active: false, hoverColor: '#1a1012', // Subtle dark reddish purple
   },
   {
     role: 'UI UX Designer', company: 'Nuren AI', period: '2023 — 2024',
     desc: 'Created web UI and interactions for a CRM platform. Conducted user research and developed prototypes.',
-    active: false, hoverColor: '#3b82f6',
+    active: false, hoverColor: '#0c121a', // Subtle deep blue
   },
 ];
 

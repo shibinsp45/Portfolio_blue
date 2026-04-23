@@ -135,6 +135,7 @@ export default function Navbar({ dark, toggleTheme }) {
 
           {/* Connect */}
           <motion.a href="mailto:shibinsp45@gmail.com" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+            className="desktop-only-connect"
             style={{ fontSize: '0.8125rem', padding: '10px 24px', borderRadius: 999, background: '#fff', color: '#1a1a20', border: '1px solid rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 600, fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
             Connect
           </motion.a>
@@ -197,15 +198,29 @@ export default function Navbar({ dark, toggleTheme }) {
               })}
             </div>
 
-            <div style={{ paddingTop: '2rem', borderTop: '1px solid var(--border)', display: 'flex', gap: '1.5rem' }}>
-              <a href="https://linkedin.com/in/shibinsp45" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>LinkedIn</a>
-              <a href="https://wa.me/918606129072" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>WhatsApp</a>
+            <div style={{ marginTop: 'auto', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+              <motion.a href="mailto:shibinsp45@gmail.com"
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                style={{ width: '100%', padding: '1.25rem', borderRadius: 16, background: 'var(--fg)', color: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, marginBottom: '1.5rem', fontSize: '1rem' }}>
+                Connect
+              </motion.a>
+              <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
+                <a href="https://linkedin.com/in/shibinsp45" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>LinkedIn</a>
+                <a href="https://wa.me/918606129072" target="_blank" style={{ fontSize: '0.875rem', color: 'var(--fg2)' }}>WhatsApp</a>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <style>{`@media(max-width:900px){.mobile-only-btn{display:flex!important}.nav-center-pills{display:none!important}.desktop-nav{padding:0 1.5rem!important;height:64px!important}}`}</style>
+      <style>{`
+        @media(max-width:900px) {
+          .mobile-only-btn { display:flex !important; }
+          .nav-center-pills { display:none !important; }
+          .desktop-nav { padding: 0 1.25rem !important; height: 72px !important; }
+          .desktop-only-connect { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }

@@ -126,22 +126,26 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginTop: '3rem', flexWrap: 'wrap' }}
+          style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gap: '1.5rem', 
+            justifyContent: 'center', 
+            marginTop: '4rem',
+            width: '100%',
+            maxWidth: '600px',
+            margin: '4rem auto 0'
+          }}
         >
           {[['4+', 'Years experience'], ['25+', 'Projects shipped'], ['500+', 'Students mentored']].map(([num, lbl]) => (
             <div key={lbl} style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Fraunces', serif", fontSize: '2.5rem', fontWeight: 300, color: 'var(--fg)', letterSpacing: '-0.03em', lineHeight: 1 }}>{num}</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', marginTop: 4, letterSpacing: '0.02em' }}>{lbl}</div>
+              <div style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 4vw, 2.5rem)', fontWeight: 300, color: 'var(--fg)', letterSpacing: '-0.03em', lineHeight: 1 }}>{num}</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', marginTop: 8, letterSpacing: '0.02em', textTransform: 'uppercase' }}>{lbl}</div>
             </div>
           ))}
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <div style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, opacity: 0.35, zIndex: 10 }}>
-        <div style={{ width: 1, height: 48, background: 'linear-gradient(to bottom, var(--fg3), transparent)', animation: 'scroll-line 2s ease-in-out infinite' }} />
-        <span style={{ fontSize: '0.7rem', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.1em', color: 'var(--fg3)' }}>scroll</span>
-      </div>
     </section>
   );
 }

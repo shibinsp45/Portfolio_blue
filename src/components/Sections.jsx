@@ -25,9 +25,9 @@ export function Skills() {
   return (
     <section className="section" id="skills" style={{ background: 'var(--bg)' }}>
       <div className="max-w">
-        <div style={{ display: 'flex', gap: '4rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}
-            style={{ flex: 1, minWidth: 280 }}>
+            style={{ flex: '1 1 300px' }}>
             <div className="eyebrow">Expertise</div>
             <h2 className="section-title">Design<br /><em>superpowers</em></h2>
             <p style={{ marginTop: '1.25rem', fontSize: '0.9rem', color: 'var(--fg2)', lineHeight: 1.7, maxWidth: 300 }}>
@@ -59,8 +59,8 @@ export function QuoteSection() {
     <section className="section" style={{ background: 'var(--bg)', padding: '4rem 2rem', textAlign: 'center' }}>
       <div className="max-w">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8 }}>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontStyle: 'italic', fontWeight: 300, color: 'var(--fg)', lineHeight: 1.2, margin: 0, letterSpacing: '-0.02em' }}>
-            "Craft by <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>mind</em>,<br /> design with <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>soul</em>."
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2.25rem, 6vw, 4rem)', fontStyle: 'italic', fontWeight: 300, color: 'var(--fg)', lineHeight: 1.2, margin: 0, letterSpacing: '-0.02em' }}>
+            "Craft by <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>mind</em>,<br className="mobile-only" /> design with <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>soul</em>."
           </h2>
         </motion.div>
       </div>
@@ -78,7 +78,7 @@ export function About() {
           <h2 className="section-title">Engineer turned<br /><em>experience designer</em></h2>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start', marginTop: '3.5rem' }}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '4rem', alignItems: 'start', marginTop: '3.5rem' }}
           className="about-layout">
           {/* Image */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8, delay: 0.1 }}>
@@ -170,7 +170,7 @@ export function Why() {
           <div className="eyebrow">Why work with me</div>
           <h2 className="section-title">What makes me<br /><em>different</em></h2>
         </motion.div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginTop: '3rem' }} className="why-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginTop: '3rem' }} className="why-grid">
           {cards.map((c, i) => (
             <motion.div key={c.n} className="why-card"
               initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }}
@@ -196,7 +196,7 @@ export function Testimonials() {
           <div className="eyebrow">Recommendations</div>
           <h2 className="section-title">What people<br /><em>say</em></h2>
         </motion.div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginTop: '3rem' }} className="testi-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: '3rem' }} className="testi-grid">
           {testimonials.map((t, i) => (
             <motion.div key={t.name} className="testi-card"
               initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
@@ -232,11 +232,11 @@ export function Blogs() {
     <section id="blogs" className="section" style={{ background: 'var(--bg)' }}>
       <div className="max-w">
         <motion.div initial="hidden" whileInView="visible" viewport={vp} variants={fadeUp} transition={{ duration: 0.7 }}>
-          <div className="eyebrow" style={{ textAlign: 'center', margin: '0 auto' }}>Articles & Insights</div>
-          <h2 className="section-title" style={{ textAlign: 'center' }}>Featured Writing</h2>
+          <div className="eyebrow">Articles & Insights</div>
+          <h2 className="section-title">Featured Writing</h2>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', marginTop: '4rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
           {blogs.map((blog, idx) => (
             <motion.a 
               key={idx}
