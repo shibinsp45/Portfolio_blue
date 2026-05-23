@@ -39,22 +39,18 @@ export default function App() {
     <div style={{ minHeight: '100vh' }}>
       <ScrollProgress />
       <Navbar dark={dark} toggleTheme={() => setDark(d => !d)} />
-      <Hero />
-      <div className="section-divider" />
+      <Hero dark={dark} />
       <About />
       <Projects />
-      <div className="section-divider" />
       <Skills />
-      <div className="section-divider" />
       <Career />
-      <div className="section-divider" />
       <Blogs />
-      <div className="section-divider" />
-      <Testimonials />
+      <Testimonials dark={dark} />
       <Contact />
       <Footer />
       <BackToTop />
       <SoulChatbot />
     </div>
   );
+
 }

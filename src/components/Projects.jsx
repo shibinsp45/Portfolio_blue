@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, typeLabels } from '../data/index.js';
+import { GlowCard } from './ui/spotlight-card';
+
 
 /* ─── Domain section config ─── */
 const domainSections = [
@@ -161,65 +163,71 @@ function ProjectCard({ project, index, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        borderRadius: '1.75rem',
-        overflow: 'hidden',
-        border: `1px solid ${hovered ? 'var(--accent)' : 'var(--border)'}`,
-        background: 'var(--bg2)',
-        transition: 'border-color 0.35s, box-shadow 0.35s',
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
         height: '100%',
         transform: `translateY(${hovered ? parallaxY - 8 : parallaxY}px)`,
-        boxShadow: hovered
-          ? '0 20px 60px rgba(124,109,250,0.15), 0 0 0 1px rgba(124,109,250,0.1)'
-          : 'none',
+        transition: 'transform 0.35s ease',
         willChange: 'transform',
+        cursor: 'pointer',
       }}
     >
-      {/* Image with hover overlay */}
-      <div style={{ height: '240px', overflow: 'hidden', background: 'var(--bg3)', position: 'relative' }}>
-        <img 
-          src={project.img} alt={project.title} 
-          style={{ 
-            width: '100%', height: '100%', objectFit: 'cover',
-            transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-            transform: hovered ? 'scale(1.08)' : 'scale(1)'
-          }} 
-          loading="lazy" 
-        />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'rgba(10, 10, 15, 0.65)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.35s ease',
-          backdropFilter: 'blur(4px)'
-        }}>
-          <span style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '12px 28px', borderRadius: 999,
-            background: 'rgba(255,255,255,0.12)',
-            border: '1px solid rgba(255,255,255,0.25)',
-            color: '#fff', fontSize: '0.9rem', fontWeight: 600,
-            letterSpacing: '0.02em',
-            backdropFilter: 'blur(12px)',
-            transform: hovered ? 'translateY(0)' : 'translateY(10px)',
-            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+      <GlowCard
+        glowColor="purple"
+        customSize={true}
+        className="w-full h-full flex flex-col p-0"
+        style={{
+          borderRadius: '1.75rem',
+          overflow: 'hidden',
+          border: `1px solid ${hovered ? 'var(--accent)' : 'var(--border)'}`,
+          transition: 'border-color 0.35s, box-shadow 0.35s',
+          boxShadow: hovered
+            ? '0 20px 60px rgba(124,109,250,0.15), 0 0 0 1px rgba(124,109,250,0.1)'
+            : 'none',
+        }}
+      >
+        {/* Image with hover overlay */}
+        <div style={{ height: '240px', overflow: 'hidden', background: 'var(--bg3)', position: 'relative' }}>
+          <img 
+            src={project.img} alt={project.title} 
+            style={{ 
+              width: '100%', height: '100%', objectFit: 'cover',
+              transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: hovered ? 'scale(1.08)' : 'scale(1)'
+            }} 
+            loading="lazy" 
+          />
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(10, 10, 15, 0.65)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 0.35s ease',
+            backdropFilter: 'blur(4px)'
           }}>
-            View Project
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
-            </svg>
-          </span>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '12px 28px', borderRadius: 999,
+              background: 'rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              color: '#fff', fontSize: '0.9rem', fontWeight: 600,
+              letterSpacing: '0.02em',
+              backdropFilter: 'blur(12px)',
+              transform: hovered ? 'translateY(0)' : 'translateY(10px)',
+              transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}>
+              View Project
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Card content */}
-      <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '0.75rem', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.3 }}>{project.title}</h3>
-        <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.65, flex: 1 }}>{project.desc}</p>
-      </div>
+        {/* Card content */}
+        <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '0.75rem', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.3 }}>{project.title}</h3>
+          <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.65, flex: 1 }}>{project.desc}</p>
+        </div>
+      </GlowCard>
     </motion.div>
   );
 }
@@ -232,7 +240,7 @@ function DomainRow({ domain, items, onSelect, isMobile }) {
   return (
     <div className="max-w" style={{ marginBottom: isMobile ? '4rem' : '6rem' }}>
       {/* Left-aligned domain heading */}
-      <div style={{ marginBottom: '2rem' }}>
+      <div className="mobile-center" style={{ marginBottom: '2rem' }}>
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           whileInView={{ opacity: 1, y: 0 }} 
@@ -262,7 +270,7 @@ function DomainRow({ domain, items, onSelect, isMobile }) {
           display: 'flex',
           gap: '1.5rem',
           overflowX: items.length > 3 || isMobile ? 'auto' : 'visible',
-          overflowY: 'visible',
+          touchAction: 'pan-y',
           scrollSnapType: 'x mandatory',
           WebkitOverflowScrolling: 'touch',
           paddingBottom: '1.5rem',
@@ -310,14 +318,14 @@ export default function Projects() {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     }
   }, [selectedProject]);
 
   return (
-    <section id="work" className="section section--alt" style={{ paddingBottom: '4rem', overflow: 'hidden' }}>
+    <section id="work" className="section section--alt" style={{ paddingBottom: '4rem' }}>
       {/* Main heading — left aligned */}
-      <div className="max-w" style={{ marginBottom: '5rem' }}>
+      <div className="max-w mobile-center" style={{ marginBottom: '5rem' }}>
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <div className="eyebrow">Work Archive</div>
           <h2 className="section-title">Selected<br /><em>design solutions</em></h2>

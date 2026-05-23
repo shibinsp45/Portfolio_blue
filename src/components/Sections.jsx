@@ -1,5 +1,79 @@
-import { motion } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { skills, marqueeItems, experiences, testimonials, blogs } from '../data/index.js';
+import { Gravity, MatterBody } from './ui/gravity';
+import { GlowCard } from './ui/spotlight-card';
+import { TestimonialCard } from './ui/testimonial-cards';
+import { Calendar, Award, Users, ShieldCheck, ThumbsUp, Layout, Search, Layers, Component, PenTool, Code, Atom, Sparkles, Palette, Gamepad2, MonitorPlay, MousePointerClick, Bot, PlaySquare, Zap } from 'lucide-react';
+import { TextScramble } from './ui/text-scramble';
+
+/* ── Stat card with hover-triggered scramble ── */
+function StatCard({ num, label }) {
+  const [trigger, setTrigger] = useState(false);
+  return (
+    <div
+      style={{ textAlign: 'center', cursor: 'default', userSelect: 'none' }}
+      onMouseEnter={() => setTrigger(true)}
+    >
+      <TextScramble
+        as="div"
+        trigger={trigger}
+        onScrambleComplete={() => setTrigger(false)}
+        duration={0.6}
+        speed={0.03}
+        characterSet="0123456789"
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+          fontWeight: 300,
+          color: 'var(--fg)',
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
+          transition: 'color 0.2s',
+        }}
+      >
+        {num}
+      </TextScramble>
+      <div style={{
+        fontSize: '0.75rem',
+        color: 'var(--fg3)',
+        marginTop: 8,
+        letterSpacing: '0.02em',
+        textTransform: 'uppercase',
+      }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   ParallaxOrb — decorative floating orb that
+   drifts at `speed` relative to section scroll.
+   Disabled on mobile (max-width < 900px).
+────────────────────────────────────────────── */
+function ParallaxOrb({ color = 'rgba(124,109,250,0.12)', size = 400, top, left, right, bottom, speed = 0.3 }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const rawY = useTransform(scrollYProgress, [0, 1], [speed * 120, -(speed * 120)]);
+  const y    = useSpring(rawY, { stiffness: 60, damping: 20 });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{
+        position: 'absolute',
+        width: size, height: size,
+        borderRadius: '50%',
+        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+        top, left, right, bottom,
+        pointerEvents: 'none',
+        zIndex: 0,
+        y,
+      }}
+    />
+  );
+}
 
 const fadeUp = { hidden: { opacity: 0, y: 36 }, visible: { opacity: 1, y: 0 } };
 const vp = { once: true, margin: '-60px' };
@@ -20,38 +94,122 @@ export function Marquee() {
   );
 }
 
-/* ─── Skills ─── */
+/* ─── Skills (Gravity physics) ─── */
 export function Skills() {
+  // Assign a colour palette that matches the portfolio accent system
+  const palette = [
+    '#7c6dfa', '#a78bfa', '#c4b5fd',
+    '#6ee7b7', '#34d399', '#fbbf24',
+    '#f472b6', '#60a5fa', '#fb923c',
+    '#4ade80', '#e879f9', '#38bdf8',
+    '#facc15', '#f87171',
+  ];
+
+  // Spread positions so pills start staggered across the sandbox
+  const positions = [
+    { x: '15%', y: '5%'  }, { x: '40%', y: '2%'  }, { x: '65%', y: '8%'  },
+    { x: '85%', y: '3%'  }, { x: '25%', y: '18%' }, { x: '55%', y: '15%' },
+    { x: '75%', y: '20%' }, { x: '10%', y: '30%' }, { x: '45%', y: '28%' },
+    { x: '70%', y: '35%' }, { x: '20%', y: '45%' }, { x: '50%', y: '42%' },
+    { x: '80%', y: '40%' }, { x: '35%', y: '55%' },
+  ];
+
   return (
-    <section className="section" id="skills" style={{ background: 'var(--bg)' }}>
+    <section className="section" id="skills" style={{ background: 'var(--bg)', overflow: 'hidden' }}>
       <div className="max-w">
         <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}
-            style={{ flex: '1 1 300px' }}>
+
+          {/* ── Left: heading ── */}
+          <motion.div
+            variants={fadeUp} initial="hidden" whileInView="visible"
+            viewport={vp} transition={{ duration: 0.7 }}
+            style={{ flex: '1 1 260px' }}
+          >
             <div className="eyebrow">Expertise</div>
             <h2 className="section-title">Design<br /><em>superpowers</em></h2>
             <p style={{ marginTop: '1.25rem', fontSize: '0.9rem', color: 'var(--fg2)', lineHeight: 1.7, maxWidth: 300 }}>
-              I specialise in the full design-to-code pipeline.
+              I specialise in the full design-to-code pipeline. Grab a skill and toss it around!
             </p>
           </motion.div>
 
+          {/* ── Right: physics sandbox ── */}
           <motion.div
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7, delay: 0.15 }}
-            style={{ flex: 2, minWidth: 280, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            {skills.map((s, i) => (
-              <motion.span key={s.label} className={`skill-tag${s.featured ? ' featured' : ''}`}
-                initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }}
-                viewport={vp} transition={{ duration: 0.4, delay: i * 0.04 }}
-                whileHover={{ scale: 1.06 }}>
-                {s.label}
-              </motion.span>
-            ))}
+            variants={fadeUp} initial="hidden" whileInView="visible"
+            viewport={vp} transition={{ duration: 0.7, delay: 0.15 }}
+            className="flex-[2] min-w-[280px] min-h-[420px] relative rounded-[20px]"
+          >
+            <GlowCard customSize className="w-full h-full overflow-hidden" glowColor="purple" style={{ borderRadius: 20 }}>
+            <Gravity gravity={{ x: 0, y: 1 }} className="w-full h-full">
+              {skills.map((skill, i) => {
+                const palette = ['#7c6dfa', '#4ade80', '#fbbf24', '#f472b6', '#38bdf8'];
+                
+                const getSkillIcon = (label) => {
+                  switch (label) {
+                    case 'User Interface Design': return <Layout size={14} />;
+                    case 'UX Research': return <Search size={14} />;
+                    case 'Prototyping': return <Layers size={14} />;
+                    case 'Design Systems': return <Component size={14} />;
+                    case 'Figma': return <PenTool size={14} />;
+                    case 'Front-end Dev': return <Code size={14} />;
+                    case 'React': return <Atom size={14} />;
+                    case 'Branding': return <Sparkles size={14} />;
+                    case 'Visual Design': return <Palette size={14} />;
+                    case 'Gamification': return <Gamepad2 size={14} />;
+                    case 'Game UI/UX': return <MonitorPlay size={14} />;
+                    case 'Interaction Design': return <MousePointerClick size={14} />;
+                    case 'AI Integration': return <Bot size={14} />;
+                    case 'Motion Design': return <PlaySquare size={14} />;
+                    default: return <Zap size={14} />;
+                  }
+                };
+
+                return (
+                  <MatterBody
+                    key={skill.label}
+                    matterBodyOptions={{ friction: 0.1, restitution: 0.8, density: 0.001 }}
+                    x={`${20 + Math.random() * 60}%`}
+                    y={`${10 + Math.random() * 40}%`}
+                    angle={Math.random() * 20 - 10}
+                  >
+                  <div style={{
+                    padding: '10px 20px',
+                    borderRadius: 999,
+                    background: skill.featured
+                      ? palette[i % palette.length]
+                      : 'var(--surface)',
+                    border: skill.featured
+                      ? 'none'
+                      : '1px solid var(--border2)',
+                    color: skill.featured ? '#fff' : 'var(--fg2)',
+                    fontSize: '0.82rem',
+                    fontWeight: skill.featured ? 600 : 500,
+                    fontFamily: "'DM Sans', sans-serif",
+                    letterSpacing: '0.01em',
+                    whiteSpace: 'nowrap',
+                    cursor: 'grab',
+                    userSelect: 'none',
+                    boxShadow: skill.featured
+                      ? `0 4px 20px ${palette[i % palette.length]}55`
+                      : '0 2px 8px rgba(0,0,0,0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    {getSkillIcon(skill.label)}
+                    {skill.label}
+                  </div>
+                </MatterBody>
+              )})}
+            </Gravity>
+            </GlowCard>
           </motion.div>
+
         </div>
       </div>
     </section>
   );
 }
+
 
 /* ─── Quote Section ─── */
 export function QuoteSection() {
@@ -59,7 +217,7 @@ export function QuoteSection() {
     <section className="section" style={{ background: 'var(--bg)', padding: '4rem 2rem', textAlign: 'center' }}>
       <div className="max-w">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8 }}>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2.25rem, 6vw, 4rem)', fontStyle: 'italic', fontWeight: 300, color: 'var(--fg)', lineHeight: 1.2, margin: 0, letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(2.25rem, 6vw, 4rem)', fontStyle: 'italic', fontWeight: 300, color: 'var(--fg)', lineHeight: 1.2, margin: 0, letterSpacing: '-0.02em' }}>
             "Craft by <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>mind</em>,<br className="mobile-only" /> design with <em style={{ color: 'var(--accent2)', fontStyle: 'italic' }}>soul</em>."
           </h2>
         </motion.div>
@@ -70,9 +228,18 @@ export function QuoteSection() {
 
 /* ─── About ─── */
 export function About() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
+  const rawImgY = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+  const imgY    = useSpring(rawImgY, { stiffness: 60, damping: 20 });
+
   return (
-    <section className="section" id="about" style={{ background: 'var(--bg)' }}>
-      <div className="max-w">
+    <section ref={sectionRef} className="section" id="about" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+      {/* Background orbs */}
+      <ParallaxOrb color="rgba(124,109,250,0.08)" size={500} top="-100px" right="-150px" speed={0.4} />
+      <ParallaxOrb color="rgba(167,139,250,0.06)" size={350} bottom="-80px" left="-100px" speed={0.25} />
+
+      <div className="max-w" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
           <div className="eyebrow">Who I'am</div>
           <h2 className="section-title">Engineer turned<br /><em>experience designer</em></h2>
@@ -80,22 +247,14 @@ export function About() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '4rem', alignItems: 'start', marginTop: '3.5rem' }}
           className="about-layout">
-          {/* Image */}
+          {/* Image — subtle float parallax */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.8, delay: 0.1 }}>
-            <div style={{ borderRadius: 24, overflow: 'hidden', aspectRatio: '4/5', background: 'var(--bg2)', position: 'relative' }}>
+            <motion.div style={{ borderRadius: 24, overflow: 'hidden', aspectRatio: '4/5', background: 'var(--bg2)', position: 'relative', y: imgY }}>
               <img src="https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/lovable-uploads/271586bf-e3ab-4edd-a6f9-6916bef817ff.jpg"
                 alt="Shibin S P" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={e => e.target.parentElement.style.background = 'var(--bg3)'}
               />
-              {/* Badge */}
-              <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', background: 'rgba(10,10,15,0.82)', border: '1px solid var(--border2)', borderRadius: 12, padding: '0.875rem 1.25rem', display: 'flex', alignItems: 'center', gap: 10, backdropFilter: 'blur(12px)' }}>
-                <span className="live-dot" />
-                <div>
-                  <div style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--fg)' }}>Open to work</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--fg3)' }}>Kerala, India</div>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Content */}
@@ -105,9 +264,42 @@ export function About() {
             </p>
 
             <div style={{ fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace", color: 'var(--fg3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1rem', marginTop: '2rem' }}>Tools I use daily</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: '2.5rem' }}>
               {['Figma', 'HTML / CSS', 'JavaScript', 'React', 'Framer', 'Webflow', 'Illustrator', 'After Effects'].map(t => (
                 <span key={t} className="tool-pill">{t}</span>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div style={{ 
+              display: 'flex', 
+              flexWrap: 'wrap',
+              gap: '1.5rem', 
+              justifyContent: 'space-between',
+              marginBottom: '3rem'
+            }}>
+              {[['4+', 'Years experience'], ['25+', 'Projects shipped'], ['500+', 'Students mentored']].map(([num, lbl]) => (
+                <StatCard key={lbl} num={num} label={lbl} />
+              ))}
+            </div>
+
+            {/* Why work with me / What makes me different */}
+            <div style={{ fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace", color: 'var(--fg3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>What makes me different</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {[
+                { title: 'Efficient workflow', desc: 'Streamlined process for rapid delivery — tight deadlines without cutting corners on quality.' },
+                { title: 'Deeply collaborative', desc: 'I work closely with you, listening first. Your feedback shapes every iteration.' },
+                { title: 'Attention to detail', desc: 'Meticulous care for every pixel, interaction, and edge case.' }
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '1.5rem', fontFamily: "'Inter', sans-serif", fontStyle: 'italic', color: 'var(--accent2)', fontWeight: 300, minWidth: '28px', lineHeight: 1 }}>
+                    0{idx + 1}
+                  </span>
+                  <div>
+                    <h4 style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.25rem' }}>{item.title}</h4>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.65 }}>{item.desc}</p>
+                  </div>
+                </div>
               ))}
             </div>
           </motion.div>
@@ -123,8 +315,12 @@ export function About() {
 /* ─── Career ─── */
 export function Career() {
   return (
-    <section className="section section--alt" id="journey">
-      <div className="max-w">
+    <section className="section section--alt" id="journey" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Parallax orbs */}
+      <ParallaxOrb color="rgba(124,109,250,0.09)" size={600} top="-200px" left="-200px"  speed={0.35} />
+      <ParallaxOrb color="rgba(74,222,128,0.06)"  size={400} bottom="-100px" right="-100px" speed={0.2} />
+
+      <div className="max-w" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
           <div className="eyebrow">Career</div>
           <h2 className="section-title">My creative<br /><em>journey</em></h2>
@@ -132,12 +328,12 @@ export function Career() {
 
         <div style={{ marginTop: '3.5rem' }}>
           {experiences.map((e, i) => (
-            <motion.div key={e.role} className="exp-item"
+            <motion.div key={`${e.role}-${e.company}`} className="exp-item"
               initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={vp} transition={{ duration: 0.6, delay: i * 0.12 }}
               onMouseEnter={ev => ev.currentTarget.style.backgroundColor = e.hoverColor || 'var(--bg2)'}
               onMouseLeave={ev => ev.currentTarget.style.backgroundColor = 'transparent'}
-              style={{ transition: 'background-color 0.4s ease', padding: '2rem' }}
+              style={{ transition: 'background-color 0.4s ease' }}
             >
               <div>
                 <div className="exp-period">{e.period}</div>
@@ -188,42 +384,49 @@ export function Why() {
 }
 
 /* ─── Testimonials ─── */
-export function Testimonials() {
+export function Testimonials({ dark }) {
+  const [positions, setPositions] = useState(["front", "middle", "back"]);
+
+  const handleShuffle = () => {
+    const newPositions = [...positions];
+    newPositions.unshift(newPositions.pop());
+    setPositions(newPositions);
+  };
+
   return (
-    <section className="section" style={{ background: 'var(--bg)' }}>
+    <section className="section" style={{ background: 'var(--bg)', overflow: 'hidden' }}>
       <div className="max-w">
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
           <div className="eyebrow">Recommendations</div>
-          <h2 className="section-title">What people<br /><em>say</em></h2>
+          <h2 className="section-title" style={{ marginBottom: '4.5rem' }}>What people<br /><em>say</em></h2>
         </motion.div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: '3rem' }} className="testi-grid">
-          {testimonials.map((t, i) => (
-            <motion.div key={t.name} className="testi-card"
-              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={vp} transition={{ duration: 0.6, delay: i * 0.12 }}>
-              <div style={{ display: 'flex', gap: 2 }}>
-                {Array(5).fill(0).map((_, j) => <span key={j} style={{ color: 'var(--amber)', fontSize: 14 }}>★</span>)}
-              </div>
-              <p className="testi-text">"{t.quote}"</p>
-              <div className="testi-author">
-                <div className="testi-avatar">
-                  <img src={t.avatar} alt={t.name} onError={e => e.target.parentElement.style.background = 'var(--bg3)'} />
-                </div>
-                <div>
-                  <div className="testi-name">{t.name}</div>
-                  <div className="testi-role">{t.role}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={vp}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="grid place-content-center"
+        >
+          <div className="relative h-64 w-64 md:h-80 md:w-80 mx-auto mt-8 mb-16" style={{ perspective: 1000 }}>
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard
+                key={testimonial.name}
+                testimonial={testimonial.quote}
+                author={`${testimonial.name} - ${testimonial.role}`}
+                avatar={testimonial.avatar}
+                handleShuffle={handleShuffle}
+                position={positions[index]}
+              />
+            ))}
+          </div>
+        </motion.div>
       </div>
-      <style>{`@media(max-width:900px){.testi-grid{grid-template-columns:1fr!important}}`}</style>
     </section>
   );
 }
 
-/* ─── Contact ─── */
+/* ─── Blogs ─── */
 export function Blogs() {
   const vp = { once: true, amount: 0.2 };
   const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
@@ -238,30 +441,29 @@ export function Blogs() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '4rem' }}>
           {blogs.map((blog, idx) => (
-            <motion.a 
-              key={idx}
-              href="#"
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={vp} 
-              variants={fadeUp} 
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              style={{ display: 'block', borderRadius: '1.5rem', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--surface)', transition: 'all 0.3s ease', textDecoration: 'none' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent2)'; e.currentTarget.style.transform = 'translateY(-8px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              <div style={{ height: '200px', overflow: 'hidden' }}>
-                <img src={blog.img} alt={blog.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div style={{ padding: '2rem' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', textTransform: 'uppercase', marginBottom: '0.75rem', fontWeight: 600 }}>{blog.year} • ARTICLE</div>
-                <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '1rem', fontWeight: 600 }}>{blog.title}</h3>
-                <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.6 }}>{blog.desc}</p>
-                <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent2)', fontSize: '0.875rem', fontWeight: 500 }}>
-                  Read Article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={vp} variants={fadeUp} transition={{ duration: 0.5, delay: idx * 0.1 }}>
+              <GlowCard customSize className="w-full h-full overflow-hidden" glowColor="blue">
+              <a 
+                href="#"
+                className="blog-card"
+                style={{ display: 'block', borderRadius: '1.5rem', overflow: 'hidden', background: 'var(--surface)', textDecoration: 'none', height: '100%', border: '1px solid var(--border)' }}
+              >
+                <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
+                  <img src={blog.img} alt={blog.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'var(--surface)', padding: '0.25rem 0.75rem', borderRadius: 99, fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg)', border: '1px solid var(--border)' }}>
+                    {blog.year}
+                  </div>
                 </div>
-              </div>
-            </motion.a>
+                <div style={{ padding: '2rem' }}>
+                  <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '1rem', fontWeight: 600 }}>{blog.title}</h3>
+                  <p style={{ fontSize: '0.9375rem', color: 'var(--fg2)', lineHeight: 1.6 }}>{blog.desc}</p>
+                  <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent2)', fontSize: '0.875rem', fontWeight: 500 }}>
+                    Read Article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+              </a>
+              </GlowCard>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -280,7 +482,7 @@ export function Contact() {
       <div style={{ maxWidth: 640, margin: '0 auto' }}>
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} transition={{ duration: 0.7 }}>
           <div className="eyebrow" style={{ justifyContent: 'center', marginBottom: 0 }}>Let's connect</div>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2.5rem,5vw,4rem)', fontWeight: 300, letterSpacing: '-0.03em', color: 'var(--fg)', lineHeight: 1.1, marginTop: '1.5rem' }}>
+          <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(2.5rem,5vw,4rem)', fontWeight: 300, letterSpacing: '-0.03em', color: 'var(--fg)', lineHeight: 1.1, marginTop: '1.5rem' }}>
             Got a project<br />in <em style={{ fontStyle: 'italic', color: 'var(--accent2)' }}>mind?</em>
           </h2>
           <p style={{ color: 'var(--fg2)', margin: '1.5rem auto', maxWidth: 400, lineHeight: 1.7, fontSize: '0.9375rem' }}>
@@ -296,7 +498,7 @@ export function Contact() {
           </div>
           <motion.a href="mailto:shibinsp45@gmail.com"
             whileHover={{ color: 'var(--accent2)' }}
-            style={{ marginTop: '3rem', fontFamily: "'Fraunces', serif", fontSize: 'clamp(1.25rem,2.5vw,1.75rem)', color: 'var(--fg3)', fontStyle: 'italic', transition: 'color 0.3s', display: 'inline-block' }}>
+            style={{ marginTop: '3rem', fontFamily: "'Inter', sans-serif", fontSize: 'clamp(1.25rem,2.5vw,1.75rem)', color: 'var(--fg3)', fontStyle: 'italic', transition: 'color 0.3s', display: 'inline-block' }}>
             shibinsp45@gmail.com →
           </motion.a>
         </motion.div>
@@ -310,7 +512,7 @@ export function Footer() {
   return (
     <footer style={{ padding: '3rem 2rem', borderTop: '1px solid var(--border)', background: 'var(--bg2)' }}>
       <div className="max-w" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem' }}>
-        <div style={{ fontFamily: "'Fraunces', serif", fontSize: '1.125rem', fontWeight: 400, letterSpacing: '-0.02em', color: 'var(--fg2)' }}>Shibin S P</div>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1.125rem', fontWeight: 400, letterSpacing: '-0.02em', color: 'var(--fg2)' }}>Shibin S P</div>
         <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
           {[['#work', 'Work'], ['#about', 'About'], ['#journey', 'Journey'], ['https://linkedin.com/in/shibinsp45', 'LinkedIn']].map(([href, label]) => (
             <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
@@ -321,7 +523,7 @@ export function Footer() {
             </a>
           ))}
         </div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', fontFamily: "'JetBrains Mono', monospace" }}>© 2025 — Kerala, India</div>
+        <div style={{ fontSize: '0.75rem', color: 'var(--fg3)', fontFamily: "'JetBrains Mono', monospace" }}>© 2025 — Shibin S P</div>
       </div>
     </footer>
   );

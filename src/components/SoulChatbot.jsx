@@ -40,7 +40,7 @@ function getSuggestions(last) {
   if (l.includes('project') || l.includes('fudit') || l.includes('invoice')) return followUps.projects;
   if (l.includes('figma') || l.includes('skill') || l.includes('design system')) return followUps.skills;
   if (l.includes('mail') || l.includes('email') || l.includes('whatsapp') || l.includes('contact')) return followUps.contact;
-  if (l.includes('webcastle') || l.includes('nuren') || l.includes('kreative') || l.includes('work')) return followUps.work;
+  if (l.includes('zoople') || l.includes('nuren') || l.includes('kreative') || l.includes('work')) return followUps.work;
   if (l.includes('resume') || l.includes('drive.google')) return followUps.resume;
   return followUps.default;
 }
@@ -79,7 +79,7 @@ CRITICAL: NEVER paste raw URLs or emails as visible text. ONLY markdown links:
 - [Instagram](https://instagram.com/shibin_sp45)
 - [Email](mailto:shibinsp45@gmail.com)
 
-About you: UI/UX Designer & Front-End Dev. 2.5+ yrs. Kerala, India. Currently at Webcastle (2025). Before: Kreative Sparkz (2024), Nuren AI (2023-24). Skills: Figma, Design Systems, UX, Prototyping, Web Dev, Mobile, AI tools. Projects: Billzy, Fudit, GetFit, GroPlan, Tools App, ElitePath, TeaTym, AJ Delight, Perfume Branding.`;
+About you: UI/UX Designer & Front-End Dev. 2.5+ yrs. Currently UI/UX Designer & Mentor at Zoople Technologies (2025). Before: Kreative Sparkz (2024), Nuren AI (2023-24). Skills: Figma, Design Systems, UX, Prototyping, Web Dev, Mobile, AI tools. Projects: Billzy, Fudit, GetFit, GroPlan, Tools App, ElitePath, TeaTym, AJ Delight, Perfume Branding.`;
 
 const SEED = [];
 
@@ -162,7 +162,7 @@ export default function SoulChatbot() {
     setLoading(true);
 
     // Mock Response system specifically for the portfolio context
-    let ans = "I'm Shibin's personal AI! I can tell you about his projects (like Fudit or Billzy), his experience at Webcastle, his design skills, or how to get his resume/contact him. What's on your mind?";
+    let ans = "I'm Shibin's personal AI! I can tell you about his projects (like Fudit or Billzy), his experience at Zoople Technologies, his design skills, or how to get his resume/contact him. What's on your mind?";
     const low = text.toLowerCase();
     
     if (low.includes('do you do') || low.includes('who are') || low.includes('about')) {
@@ -176,7 +176,7 @@ export default function SoulChatbot() {
     } else if (low.includes('resume') || low.includes('cv')) {
       ans = "Sure! You can download/view my [Resume here](https://drive.google.com/drive/folders/1FMTzFedlti8jhFb-k_y83SzHGbcjUjvF).";
     } else if (low.includes('experience') || low.includes('role') || low.includes('where')) {
-      ans = "Currently at Webcastle. Previously helped teams at Kreative Sparkz and Nuren AI. I have over 2.5 years of experience in product design.";
+      ans = "Currently a UI/UX Designer & Mentor at Zoople Technologies. Previously helped teams at Kreative Sparkz and Nuren AI. I have over 2.5 years of experience in product design.";
     } else if (low.includes('price') || low.includes('cost') || low.includes('budget')) {
       ans = "I'm always open to discussing new projects! Let's connect on [WhatsApp](https://wa.me/918606129072) to talk details.";
     } else if (low.includes('hi') || low.includes('hey') || low.includes('hello')) {
