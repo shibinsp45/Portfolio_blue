@@ -317,6 +317,12 @@ export const Gravity = forwardRef<GravityRef, GravityProps>(
       });
 
       const mouse = Mouse.create(render.current.canvas);
+      // Disable mouse wheel capture to allow normal page scrolling
+      if (mouse.element) {
+        mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+        mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+        mouse.element.removeEventListener("wheel", mouse.mousewheel);
+      }
       mouseConstraint.current = MouseConstraint.create(engine.current, {
         mouse,
         constraint: { stiffness: 0.2, render: { visible: debug } },
@@ -367,6 +373,36 @@ export const Gravity = forwardRef<GravityRef, GravityProps>(
           mouseDown.current = false;
         });
       }
+
+      // Zero-G ambient drift and velocity damping
+      Events.on(engine.current, "beforeUpdate", () => {
+        if (gravity.x === 0 && gravity.y === 0) {
+          const time = engine.current.timing.timestamp * 0.001;
+          bodiesMap.current.forEach(({ body }, id) => {
+            if (body.isStatic) return;
+
+            // Apply a small force for gentle floating, scaled by mass
+            const idHash = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const forceMagnitude = 0.000015 * body.mass;
+            const forceX = Math.sin(time * 0.3 + idHash) * forceMagnitude;
+            const forceY = Math.cos(time * 0.25 + idHash) * forceMagnitude;
+
+            Matter.Body.applyForce(body, body.position, { x: forceX, y: forceY });
+
+            // Smoothly damp velocity if it exceeds max floating speed (and is not grabbed)
+            const maxSpeed = 1.5;
+            if (body.speed > maxSpeed) {
+              const isGrabbed = mouseConstraint.current?.body === body;
+              if (!isGrabbed) {
+                Matter.Body.setVelocity(body, {
+                  x: body.velocity.x * 0.98,
+                  y: body.velocity.y * 0.98,
+                });
+              }
+            }
+          });
+        }
+      });
 
       World.add(engine.current.world, [mouseConstraint.current, ...walls]);
       render.current.mouse = mouse;

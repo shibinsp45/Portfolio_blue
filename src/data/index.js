@@ -23,81 +23,134 @@ export const skills = [
 
 export const projects = [
   {
-    title: 'Billzy — Invoice Generator App',
-    desc: 'Full-featured mobile invoice application for small business owners. Includes client management, automated tax calculation, and professional PDF generation.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/invoice-generator.jpg',
-    type: 'ux', year: '2025', color: '#7c6dfa',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "Invoice Generator Mobile App",
+    "desc": "A mobile invoice app – create bills faster, manage your shop better.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/invoice-generator.jpg",
+    "type": "ux",
+    "year": "2025",
+    "behance": "https://www.behance.net/gallery/243058217/Invoice-Generator-Mobile-App-Case-Study"
   },
   {
-    title: 'Fudit — AI Food Delivery App',
-    desc: 'Revolutionizing food discovery with AI-powered recommendations, mood-based searches, and a seamless checkout experience.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/fudit-app.png',
-    type: 'ux', year: '2024', color: '#a78bfa',
-    behance: 'https://www.behance.net/gallery/191764619/Fudit-AI-Food-delivery-App-Design-Case-Study'
+    "title": "Tools - Service App",
+    "desc": "On-demand tools and repair service app – we are here to help you.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/tools-app.png",
+    "type": "ux",
+    "year": "2025",
+    "behance": "https://www.behance.net/gallery/245113395/Tools"
   },
   {
-    title: 'AJ Delight Point Branding',
-    desc: 'A premium visual identity for a bakery chain, focusing on organic textures, warm palettes, and artisanal typography.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/aj-delight-point.png',
-    type: 'brand', year: '2026', color: '#fbbf24',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "Fudit - AI Food Delivery App",
+    "desc": "AI-powered food delivery app – satisfy your cravings, delivered to your home.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/fudit-app.png",
+    "type": "ux",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/197536833/AI-powered-Food-Delivery-App-Fudit"
   },
   {
-    title: 'GroPlan — Grocery Planner',
-    desc: 'Smart meal planner that syncs with local inventory and automatically generates shopping lists based on diet goals.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/grocery-app.jpg',
-    type: 'ux', year: '2025', color: '#34d399',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "GetFit - Fitness Tracking App",
+    "desc": "Fitness tracking app case study – where fitness meets passion.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/fitness-app.jpg",
+    "type": "ux",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/202932045/Fitness-Tracking-App-Case-Study"
   },
   {
-    title: 'ElitePath Dashboard',
-    desc: 'Educational platform UI for student progress tracking, featuring real-time analytics and gamified rewards.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/elitepath.png',
-    type: 'web', year: '2024', color: '#38bdf8',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "GroPlan - Smart Grocery App",
+    "desc": "Smart grocery & meal planning app – your smart kitchen buddy.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/grocery-app.jpg",
+    "type": "ux",
+    "year": "2025",
+    "behance": "https://www.behance.net/gallery/240581883/Smart-Grocery-Meal-Planning-App-UX-Case-Study"
   },
   {
-    title: 'ProMedic — Medicine Vending',
-    desc: 'A hardware-software integration study for emergency medicine access, featuring touch-screen UI design.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/medicine-vending.png',
-    type: 'ux', year: '2024', color: '#0ea5e9',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "Event Management Website Design",
+    "desc": "Crafting unforgettable user experiences for event management.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/event-mgmt.jpg",
+    "type": "web",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/224965571/Event-Management-Website-Design"
   },
   {
-    title: 'TeaTym Branding',
-    desc: 'Minimalist branding for a contemporary tea lounge, blending traditional tea culture with modern aesthetics.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png', 
-    type: 'brand', year: '2025', color: '#fb7185',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "ElitePath Student Management Dashboard",
+    "desc": "Student management dashboard with progress tracking and achievements.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/elitepath.png",
+    "type": "web",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/219268503/ElitePath-Student-Management-Dashboard"
   },
   {
-    title: 'Perfume Branding Collections',
-    desc: 'Using Midjourney and Figma to create high-end perfume packaging concepts and luxury landing pages.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png',
-    type: 'ai', year: '2025', color: '#f472b6',
-    behance: 'https://www.behance.net/shibinsp'
+    "title": "Beat Landing Page",
+    "desc": "Education platform landing page – launch your career with India's leading educator.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/beat-landing.png",
+    "type": "web",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/215987973/Beat-Landing-Page"
   },
+  {
+    "title": "TeaTym Product Website",
+    "desc": "Product website for a tea brand – a cup of tea is a cup of peace.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/teatym.jpg",
+    "type": "web",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/202930537/TeaTym-Product-Website"
+  },
+  {
+    "title": "Happy Cart Branding",
+    "desc": "Branding design for a shopping cart – vibrant and playful identity.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/happy-cart.png",
+    "type": "brand",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/197538045/Happy-Cart-Branding"
+  },
+  {
+    "title": "Perfume Branding Collections",
+    "desc": "AI-generated perfume branding with elegant bottle designs and luxury aesthetics.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/perfume-branding.png",
+    "type": "ai",
+    "year": "2025",
+    "behance": "https://www.behance.net/gallery/228929049/Perfume-Branding-Collections"
+  },
+  {
+    "title": "ProMedic - Medicine Vending Machine",
+    "desc": "Medicine vending machine case study – access medicines faster during emergencies.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/medicine-vending.png",
+    "type": "ux",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/197536455/Medicine-Vending-Machine-Case-Study"
+  },
+  {
+    "title": "Smiley Desktop Wallpaper Design",
+    "desc": "Desktop wallpaper design with a cheerful smiley theme.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/smiley-wallpaper.png",
+    "type": "brand",
+    "year": "2024",
+    "behance": "https://www.behance.net/gallery/197538631/Smiley-Desktop-Wallpaper-Design"
+  }
 ];
+
+import hciBlogImg from '../assets/hci-blog.jpg';
 
 export const blogs = [
   {
-    title: 'How UI/UX Design Shapes the World',
-    desc: 'How UI/UX design decides whether we trust, and return to digital products.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/uiux-blog.webp',
-    year: '2025',
+    "title": "Why UI/UX Design Shapes How We Experience the World Today",
+    "desc": "How UI/UX design decides whether we stay, trust, and return to digital products.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/uiux-blog.webp",
+    "year": "2025",
+    "behance": "https://uxbysoul.medium.com/why-ui-ux-design-shapes-how-we-experience-the-world-today-4bf289c4e09d"
   },
   {
-    title: 'How Your Brain Shapes UX',
-    desc: 'How cognitive psychology influences user experience without you even realizing...',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/brain-ux-blog.png',
-    year: '2025',
+    "title": "How Your Brain Shapes Your User Experience",
+    "desc": "How cognitive psychology influences user experience without you even realizing it.",
+    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/brain-ux-blog.png",
+    "year": "2025",
+    "behance": "https://www.linkedin.com/pulse/how-your-brain-shapes-user-experience-without-you-even-realizing-elxec"
   },
   {
-    title: 'Human-Computer Interaction',
-    desc: 'The science, principles, and real-world applications of how humans and computers interact.',
-    img: 'https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/hci-blog.jpg',
-    year: '2025',
+    "title": "Human-Computer Interaction",
+    "desc": "The science, principles, and real-world applications of how humans and computers understand each other.",
+    "img": hciBlogImg,
+    "year": "2025",
+    "behance": "https://gamma.app/docs/Human-Computer-Interaction-dshl6dqgiwm9lgk"
   }
 ];
 

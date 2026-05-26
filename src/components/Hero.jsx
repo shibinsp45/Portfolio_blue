@@ -17,11 +17,13 @@ function generateStars(n) {
 export default function Hero({ dark }) {
   const ref = useRef(null);
   const stars = useMemo(() => generateStars(140), []);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const { scrollYProgress, scrollY } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
   // Content — moves up fastest (foreground)
   const y       = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+  const contentScale = useTransform(scrollY, [0, 800], [1, 0.8]);
+  const bgScale = useTransform(scrollY, [0, 800], [1, 0.9]);
 
   // Stars layer — slow drift (deep background)
   const starsY  = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
@@ -55,14 +57,15 @@ export default function Hero({ dark }) {
 
   return (
     <section ref={ref} id="home" style={{
-      minHeight: '100svh', display: 'flex', flexDirection: 'column',
+      height: '100svh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '90px 2rem 3rem', position: 'relative', overflow: 'clip',
+      padding: '90px 2rem 3rem', position: 'sticky', top: 0, overflow: 'clip', zIndex: 0,
       background: dark 
         ? "linear-gradient(135deg, #0a0613 0%, #150d27 100%)" 
         : "var(--bg)",
     }}>
-      {/* Noise */}
+      <motion.div style={{ position: 'absolute', inset: 0, scale: bgScale, transformOrigin: 'center top' }}>
+        {/* Noise */}
       <div className="noise" />
 
       {/* Stars — slow drift */}
@@ -83,11 +86,12 @@ export default function Hero({ dark }) {
       <motion.div style={{ position: 'absolute', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%)', bottom: -100, left: '5%', animation: 'drift 15s ease-in-out 2s infinite reverse', pointerEvents: 'none', y: glow2Y }} />
       <motion.div style={{ position: 'absolute', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(74,222,128,0.06) 0%, transparent 70%)', bottom: '20%', right: '15%', animation: 'drift 18s ease-in-out 4s infinite', pointerEvents: 'none', y: glow3Y }} />
 
-      {/* Planet glow — barely moves, feels massive and anchored */}
-      <motion.div className="planet-glow" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%) translateY(85%)', pointerEvents: 'none', y: planetY }} />
+        {/* Planet glow — barely moves, feels massive and anchored */}
+        <motion.div className="planet-glow" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%) translateY(85%)', pointerEvents: 'none', y: planetY }} />
+      </motion.div>
 
       {/* Content */}
-      <motion.div style={{ y, opacity, position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: 1000, width: '100%' }}>
+      <motion.div style={{ y, opacity, scale: contentScale, position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: 1000, width: '100%' }}>
         {/* Intro Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -121,7 +125,7 @@ export default function Hero({ dark }) {
           transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           style={{ 
             fontFamily: "'Inter', sans-serif", 
-            fontSize: 'clamp(2.5rem, 5.5vw, 5rem)', 
+            fontSize: 'clamp(1.5rem, 5.5vw, 5rem)', 
             fontWeight: 500, 
             lineHeight: 1.25, 
             letterSpacing: '-0.04em', 
@@ -132,8 +136,8 @@ export default function Hero({ dark }) {
             alignItems: 'center'
           }}
         >
-          <span>A Product Designer</span>
-          <span>with focus on</span>
+          <span style={{ whiteSpace: 'nowrap' }}>A Product Designer</span>
+          <span style={{ whiteSpace: 'nowrap' }}>with focus on</span>
           <span style={{ 
             position: 'relative', 
             display: 'block', 
@@ -156,7 +160,7 @@ export default function Hero({ dark }) {
                   justifyContent: 'center',
                   fontWeight: 700,
                   color: 'var(--accent)',
-                  fontSize: 'clamp(1.6rem, 3.8vw, 4rem)',
+                  fontSize: 'clamp(1.3rem, 3.8vw, 4rem)',
                   letterSpacing: '-0.04em',
                   whiteSpace: 'nowrap',
                 }}

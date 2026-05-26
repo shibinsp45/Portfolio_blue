@@ -90,22 +90,22 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 .back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:all; }
 .back-to-top:hover { border-color:var(--accent); color:var(--accent2); background:rgba(124,109,250,.1); transform:translateY(-3px); box-shadow:0 8px 32px rgba(124,109,250,.2); }
 
-.section-divider { width:100%; max-width:1200px; margin:0 auto; height:1px; background:linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border2) 50%, var(--border) 80%, transparent 100%); }
+.section-divider { width:100%; max-width:1200px; margin:0 auto; height:0; background:transparent; }
 .section--alt { background:var(--bg2); }
 .max-w { width: 100%; max-width:1200px; margin:0 auto; box-sizing: border-box; }
 
 .eyebrow { font-size:.7rem; font-family:'JetBrains Mono',monospace; color:var(--accent); letter-spacing:.12em; text-transform:uppercase; margin-bottom:1.25rem; display:flex; align-items:center; gap:10px; }
 .eyebrow::before { content:''; width:24px; height:1px; background:var(--accent); }
-.section-title { font-family:'Inter',sans-serif; font-size:clamp(2rem,4vw,3.25rem); font-weight:300; letter-spacing:-.028em; color:var(--fg); line-height:1.1; }
+.section-title { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Inter', sans-serif; font-size:clamp(2rem,4vw,3.25rem); font-weight:500; letter-spacing:-.028em; color:var(--fg); line-height:1.1; }
 
 .mobile-center { text-align: left; }
 @media(max-width: 768px) {
   .mobile-center { text-align: center; }
   .mobile-center .eyebrow { justify-content: center; }
 }
-.section-title em { font-style:italic; color:var(--accent2); }
+.section-title em { font-style: normal; color:var(--accent2); }
 
-.marquee-section { border-top:1px solid var(--border); border-bottom:1px solid var(--border); overflow:hidden; background:var(--bg2); padding:0; }
+.marquee-section { border-top:none; border-bottom:none; overflow:hidden; background:var(--bg2); padding:0; }
 .marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
 .marquee-track:hover { animation-play-state:paused; }
 .marquee-item { display:flex; align-items:center; gap:14px; padding:16px 36px; font-size:.8125rem; color:var(--fg3); white-space:nowrap; border-right:1px solid var(--border); letter-spacing:.02em; transition:color .2s; }
@@ -126,7 +126,7 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 .exp-period { font-size:.8125rem; font-family:'JetBrains Mono',monospace; color:var(--fg3); letter-spacing:.04em; line-height:1.5; }
 .exp-status { display:inline-flex; align-items:center; gap:5px; font-size:.7rem; color:var(--green); margin-top:6px; font-family:'JetBrains Mono',monospace; }
 .exp-status::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2s ease-in-out infinite; }
-.exp-role { font-family:'Fraunces',serif; font-size:1.25rem; font-weight:400; color:var(--fg); letter-spacing:-.02em; line-height:1.2; margin-bottom:.25rem; }
+.exp-role { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Inter', sans-serif; font-size:1.25rem; font-weight:600; color:var(--fg); letter-spacing:-.02em; line-height:1.2; margin-bottom:.25rem; }
 .exp-company { font-size:.875rem; color:var(--accent2); margin-bottom:.875rem; font-weight:500; }
 .exp-desc { font-size:.875rem; color:var(--fg2); line-height:1.75; max-width:560px; }
 
@@ -134,7 +134,7 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 .why-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(124,109,250,.06),transparent); opacity:0; transition:opacity .4s; border-radius:var(--r2); }
 .why-card:hover { border-color:var(--accent); transform:translateY(-8px); box-shadow:0 20px 60px rgba(124,109,250,.12); }
 .why-card:hover::before { opacity:1; }
-.why-num { font-family:'Fraunces',serif; font-size:3rem; font-weight:300; color:var(--border2); letter-spacing:-.04em; line-height:1; margin-bottom:1.5rem; transition:color .3s; }
+.why-num { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif; font-size:3rem; font-weight:500; color:var(--border2); letter-spacing:-.04em; line-height:1; margin-bottom:1.5rem; transition:color .3s; }
 .why-card:hover .why-num { color:var(--accent); }
 .why-card-title { font-size:1rem; font-weight:500; color:var(--fg); margin-bottom:.625rem; }
 .why-card-desc { font-size:.875rem; color:var(--fg2); line-height:1.7; }

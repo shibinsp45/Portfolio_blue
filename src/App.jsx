@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import Projects from './components/Projects';
 import SoulChatbot from './components/SoulChatbot';
 import { Marquee, Skills, About, Career, Why, Testimonials, Blogs, Contact, Footer } from './components/Sections';
+import { ReactLenis } from 'lenis/react';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -36,21 +37,24 @@ export default function App() {
   }, [dark]);
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <ScrollProgress />
-      <Navbar dark={dark} toggleTheme={() => setDark(d => !d)} />
-      <Hero dark={dark} />
-      <About />
-      <Projects />
-      <Skills />
-      <Career />
-      <Blogs />
-      <Testimonials dark={dark} />
-      <Contact />
-      <Footer />
-      <BackToTop />
-      <SoulChatbot />
-    </div>
+    <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
+      <div style={{ minHeight: '100vh' }}>
+        <ScrollProgress />
+        <Navbar dark={dark} toggleTheme={() => setDark(d => !d)} />
+        <Hero dark={dark} />
+        <About />
+        <Projects />
+        <Skills />
+        <Career />
+        <Why />
+        <Blogs />
+        <Testimonials dark={dark} />
+        <Contact />
+        <Footer />
+        <BackToTop />
+        <SoulChatbot />
+      </div>
+    </ReactLenis>
   );
 
 }

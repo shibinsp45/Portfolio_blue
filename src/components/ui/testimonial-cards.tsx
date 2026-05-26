@@ -14,42 +14,54 @@ export function TestimonialCard({ handleShuffle, testimonial, position, avatar, 
         top: 0,
         width: '100%',
         height: '100%',
-        borderRadius: '1.5rem',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        background: 'linear-gradient(180deg, rgba(30,30,40,0.95) 0%, rgba(20,20,30,0.95) 100%)',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(10px)',
+        borderRadius: '2rem',
+        border: isFront ? '1px solid rgba(124,109,250,0.25)' : '1px solid rgba(255,255,255,0.06)',
+        background: 'linear-gradient(160deg, rgba(30,28,50,0.97) 0%, rgba(18,17,35,0.97) 100%)',
+        boxShadow: isFront
+          ? '0 32px 64px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(124,109,250,0.1)'
+          : '0 25px 50px -12px rgba(0,0,0,0.5)',
+        backdropFilter: 'blur(16px)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '2rem 1.5rem',
+        padding: '2.5rem 2rem',
         textAlign: 'center',
-        filter: isFront ? 'none' : isMiddle ? 'blur(2px) brightness(0.8)' : 'blur(4px) brightness(0.6)',
-        cursor: isFront ? 'grab' : 'auto'
+        filter: isFront ? 'none' : isMiddle ? 'blur(2px) brightness(0.75)' : 'blur(4px) brightness(0.55)',
+        cursor: isFront ? 'grab' : 'auto',
       }}
       animate={{
-        rotate: isFront ? "-4deg" : isMiddle ? "0deg" : "4deg",
-        x: isFront ? "-10%" : isMiddle ? "10%" : "30%",
-        y: isFront ? 0 : isMiddle ? "5%" : "10%",
-        scale: isFront ? 1 : isMiddle ? 0.95 : 0.9
+        rotate: isFront ? "-5deg" : isMiddle ? "0deg" : "5deg",
+        x: isFront ? "-12%" : isMiddle ? "10%" : "32%",
+        y: isFront ? 0 : isMiddle ? "5%" : "12%",
+        scale: isFront ? 1 : isMiddle ? 0.94 : 0.88,
       }}
+      whileHover={isFront ? { scale: 1.03, boxShadow: '0 40px 80px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(124,109,250,0.2)' } : {}}
       drag={isFront ? "x" : false}
-      dragElastic={0.35}
+      dragElastic={0.3}
       dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-      whileTap={{ cursor: isFront ? "grabbing" : "auto" }}
+      whileDrag={{ scale: 1.05, rotate: '0deg', cursor: 'grabbing' }}
       onDragEnd={(e, info) => {
-        if (info.offset.x < -100 || info.offset.x > 100) {
+        if (info.offset.x < -80 || info.offset.x > 80) {
           handleShuffle();
         }
       }}
-      transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
+      transition={{ duration: 0.45, type: "spring", stiffness: 180, damping: 22 }}
     >
-      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.1)', marginBottom: '1.5rem' }}>
+      {/* Fully rounded avatar with accent ring */}
+      <div style={{
+        width: 96, height: 96,
+        borderRadius: '50%',
+        overflow: 'hidden',
+        border: '3px solid var(--accent)',
+        boxShadow: '0 0 0 4px rgba(124,109,250,0.15), 0 8px 24px rgba(0,0,0,0.4)',
+        marginBottom: '1.75rem',
+        flexShrink: 0,
+      }}>
         <img
           src={avatar}
           alt={author}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
           draggable={false}
         />
       </div>

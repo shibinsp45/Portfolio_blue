@@ -5,10 +5,10 @@ import logo from '../assets/logo.png';
 
 const navLinks = [
   { label: 'Home',     href: '#home' },
-  { label: 'Projects', href: '#work' },
   { label: 'About',    href: '#about' },
+  { label: 'Projects', href: '#work' },
   { label: 'Journey',  href: '#journey' },
-  { label: 'Contact',  href: '#contact' },
+  { label: 'Connect',  href: '#contact' },
 ];
 
 export default function Navbar({ dark, toggleTheme }) {
@@ -293,9 +293,9 @@ export default function Navbar({ dark, toggleTheme }) {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.07 }}
                     style={{
-                      fontFamily: "'Fraunces', serif",
+                      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Inter', sans-serif",
                       fontSize: 'clamp(2.5rem, 8vw, 3.5rem)',
-                      fontWeight: 300,
+                      fontWeight: 500,
                       color: isActive ? 'var(--accent)' : 'var(--fg)',
                       display: 'block',
                       letterSpacing: '-0.03em',

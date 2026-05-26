@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, typeLabels } from '../data/index.js';
 import { GlowCard } from './ui/spotlight-card';
-
+import CoverflowCarousel from './CoverflowCarousel';
 
 /* ─── Domain section config ─── */
 const domainSections = [
-  { key: 'ux', title: 'UI UX Designs', subtitle: 'Case Studies' },
-  { key: 'web', title: 'Web Development', subtitle: 'Engineering' },
-  { key: 'brand', title: 'Branding', subtitle: 'Visual Identity' },
-  { key: 'ai', title: 'Generative AI', subtitle: 'Integrations' },
+  { key: 'ux', title: 'UI UX Design and Case Study' },
+  { key: 'web', title: 'Web Development' },
+  { key: 'brand', title: 'Branding' },
+  { key: 'ai', title: 'Generative AI' },
 ];
 
 /* ─── Project Detail (Inner Page) ─── */
@@ -37,7 +37,7 @@ function ProjectDetail({ project, onClose }) {
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         style={{
           width: '100%', maxWidth: '1200px', minHeight: '100vh',
-          background: 'var(--bg)', position: 'relative',
+          background: 'var(--glass-section)', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', position: 'relative',
           paddingBottom: '6rem'
         }}
         onClick={e => e.stopPropagation()}
@@ -45,13 +45,13 @@ function ProjectDetail({ project, onClose }) {
         <button onClick={onClose} style={{ 
           position: 'fixed', top: '2rem', right: '2rem', zIndex: 50,
           width: 48, height: 48, borderRadius: '50%', 
-          background: 'var(--bg2)', border: '1px solid var(--border2)',
+          background: 'var(--glass-card)', backdropFilter: 'blur(12px)', border: '1px solid var(--border2)',
           color: 'var(--fg)', cursor: 'pointer', fontSize: '1.2rem',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
         }}>✕</button>
 
-        <div style={{ width: '100%', height: '50vh', background: 'var(--bg2)', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ width: '100%', height: '50vh', background: 'var(--glass-card)', overflow: 'hidden', position: 'relative' }}>
           <img src={project.img} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, var(--bg))' }} />
         </div>
@@ -114,7 +114,7 @@ function ProjectDetail({ project, onClose }) {
                     { t: 'UI Design', d: 'Crafting a visually stunning and accessible interface system.' },
                     { t: 'Interaction', d: 'Building prototypes to test and refine all key interactions.' }
                   ].map(item => (
-                    <div key={item.t} style={{ padding: '1.75rem', background: 'var(--bg2)', borderRadius: 20, border: '1px solid var(--border)', transition: 'border-color 0.3s' }}
+                    <div key={item.t} style={{ padding: '1.75rem', background: 'var(--glass-card)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderRadius: 20, border: '1px solid var(--border)', transition: 'border-color 0.3s' }}
                       onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent)'}
                       onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
                     >
@@ -131,20 +131,23 @@ function ProjectDetail({ project, onClose }) {
   );
 }
 
-/* ─── Project Card with parallax ─── */
 function ProjectCard({ project, index, onClick }) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef(null);
   const [parallaxY, setParallaxY] = useState(0);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setParallaxY(0);
+      return;
+    }
     const handleScroll = () => {
       if (!cardRef.current) return;
       const rect = cardRef.current.getBoundingClientRect();
       const viewH = window.innerHeight;
       const progress = (viewH - rect.top) / (viewH + rect.height);
       const clamped = Math.max(0, Math.min(1, progress));
-      const speed = index % 2 === 1 ? 30 : -10;
+      const speed = index % 2 === 1 ? 25 : -10;
       setParallaxY((clamped - 0.5) * speed);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -152,167 +155,127 @@ function ProjectCard({ project, index, onClick }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [index]);
 
+  const buttonText = project.type === 'web' ? 'Web Preview' : 'View Case Study';
+
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="project-card-wrapper"
+      style={{
+        transform: `translateY(${parallaxY}px)`,
+        willChange: 'transform',
+        position: 'relative',
+        cursor: 'pointer',
+      }}
       onClick={() => onClick(project)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{
-        height: '100%',
-        transform: `translateY(${hovered ? parallaxY - 8 : parallaxY}px)`,
-        transition: 'transform 0.35s ease',
-        willChange: 'transform',
-        cursor: 'pointer',
-      }}
     >
       <GlowCard
         glowColor="purple"
         customSize={true}
-        className="w-full h-full flex flex-col p-0"
+        className="w-full h-full overflow-hidden"
         style={{
           borderRadius: '1.75rem',
-          overflow: 'hidden',
-          border: `1px solid ${hovered ? 'var(--accent)' : 'var(--border)'}`,
-          transition: 'border-color 0.35s, box-shadow 0.35s',
-          boxShadow: hovered
-            ? '0 20px 60px rgba(124,109,250,0.15), 0 0 0 1px rgba(124,109,250,0.1)'
-            : 'none',
+          height: '100%',
+          border: hovered ? '1px solid var(--accent)' : '1px solid var(--border)',
+          transform: hovered ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)',
+          boxShadow: hovered ? '0 20px 40px rgba(124,109,250,0.15)' : '0 4px 20px rgba(0,0,0,0.1)',
+          backgroundColor: 'var(--bg2)',
+          transition: 'all 0.35s cubic-bezier(0.23, 1, 0.32, 1)',
+          position: 'relative',
         }}
       >
-        {/* Image with hover overlay */}
-        <div style={{ height: '240px', overflow: 'hidden', background: 'var(--bg3)', position: 'relative' }}>
+        {/* Full Card Image Background */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', borderRadius: 'inherit' }}>
           <img 
-            src={project.img} alt={project.title} 
+            src={project.img} 
+            alt={project.title} 
             style={{ 
-              width: '100%', height: '100%', objectFit: 'cover',
-              transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              transform: hovered ? 'scale(1.08)' : 'scale(1)'
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              transform: hovered ? 'scale(1.06)' : 'scale(1)',
+              transition: 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
             }} 
             loading="lazy" 
           />
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'rgba(10, 10, 15, 0.65)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            opacity: hovered ? 1 : 0,
-            transition: 'opacity 0.35s ease',
-            backdropFilter: 'blur(4px)'
-          }}>
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '12px 28px', borderRadius: 999,
-              background: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.25)',
-              color: '#fff', fontSize: '0.9rem', fontWeight: 600,
-              letterSpacing: '0.02em',
-              backdropFilter: 'blur(12px)',
-              transform: hovered ? 'translateY(0)' : 'translateY(10px)',
-              transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
-            }}>
-              View Project
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
-              </svg>
-            </span>
-          </div>
         </div>
 
-        {/* Card content */}
-        <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <h3 style={{ fontSize: '1.25rem', color: 'var(--fg)', marginBottom: '0.75rem', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.3 }}>{project.title}</h3>
-          <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.65, flex: 1 }}>{project.desc}</p>
+        {/* Dark Gradient Overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 20%, rgba(10, 10, 15, 0.4) 50%, rgba(10, 10, 15, 0.95) 100%)', zIndex: 1, pointerEvents: 'none', borderRadius: 'inherit' }} />
+
+
+
+        {/* Card Content Overlay */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.75rem', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', pointerEvents: 'none', textAlign: 'left' }}>
+          <h3 style={{ fontSize: '1.25rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 600, lineHeight: 1.3 }}>{project.title}</h3>
+          <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.6, margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{project.desc}</p>
+        </div>
+
+        {/* Hover Blur + Dim Overlay (less blur: 2px) */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(10, 10, 15, 0.45)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
+          zIndex: 3,
+          borderRadius: 'inherit'
+        }} />
+
+        {/* Center CTA Button */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: hovered ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.9)',
+          opacity: hovered ? 1 : 0,
+          transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
+          zIndex: 4,
+          pointerEvents: 'none'
+        }}>
+          <div style={{
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            gap: 8,
+            padding: '12px 24px', 
+            borderRadius: 999,
+            background: 'var(--accent)',
+            color: '#ffffff', 
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            fontSize: '0.85rem', 
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            boxShadow: '0 8px 24px rgba(124, 109, 250, 0.45)',
+          }}>
+            {buttonText}
+            <svg 
+              width="14" 
+              height="14" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.5"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </div>
         </div>
       </GlowCard>
-    </motion.div>
-  );
-}
-
-
-/* ─── Single Domain Row ─── */
-function DomainRow({ domain, items, onSelect, isMobile }) {
-  const scrollRef = useRef(null);
-
-  return (
-    <div className="max-w" style={{ marginBottom: isMobile ? '4rem' : '6rem' }}>
-      {/* Left-aligned domain heading */}
-      <div className="mobile-center" style={{ marginBottom: '2rem' }}>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h3 style={{ 
-            fontFamily: "'Fraunces', serif",
-            fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)', 
-            fontWeight: 300, 
-            color: 'var(--fg)', 
-            letterSpacing: '-0.03em',
-            lineHeight: 1.15,
-            marginBottom: '0.35rem'
-          }}>
-            {domain.title}
-          </h3>
-
-        </motion.div>
-      </div>
-
-      {/* Cards row */}
-      <div
-        ref={scrollRef}
-        className="projects-scroll-track"
-        style={{
-          display: 'flex',
-          gap: '1.5rem',
-          overflowX: items.length > 3 || isMobile ? 'auto' : 'visible',
-          touchAction: 'pan-y',
-          scrollSnapType: 'x mandatory',
-          WebkitOverflowScrolling: 'touch',
-          paddingBottom: '1.5rem',
-          paddingTop: '0.5rem',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        }}
-      >
-        {items.map((project, idx) => (
-          <div
-            key={project.title}
-            className="domain-card"
-            style={{
-              flex: '0 0 auto',
-              width: isMobile 
-                ? 'calc(100% - 1.5rem)' 
-                : 'calc((100% - 3rem) / 3)',
-              scrollSnapAlign: 'start',
-            }}
-          >
-            <ProjectCard
-              project={project}
-              index={idx}
-              onClick={onSelect}
-            />
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
 
+
 /* ─── Main Projects Section ─── */
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const [activeDomain, setActiveDomain] = useState(domainSections[0].key);
 
   useEffect(() => {
     if (selectedProject) {
@@ -322,30 +285,47 @@ export default function Projects() {
     }
   }, [selectedProject]);
 
-  return (
-    <section id="work" className="section section--alt" style={{ paddingBottom: '4rem' }}>
-      {/* Main heading — left aligned */}
-      <div className="max-w mobile-center" style={{ marginBottom: '5rem' }}>
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <div className="eyebrow">Work Archive</div>
-          <h2 className="section-title">Selected<br /><em>design solutions</em></h2>
-        </motion.div>
-      </div>
+  const activeImage = projects.find(p => p.type === activeDomain)?.img || '';
 
-      {/* Separate section per domain */}
-      {domainSections.map(domain => {
-        const items = projects.filter(p => p.type === domain.key);
-        if (items.length === 0) return null;
-        return (
-          <DomainRow 
-            key={domain.key}
-            domain={domain}
-            items={items}
-            onSelect={setSelectedProject}
-            isMobile={isMobile}
-          />
-        );
-      })}
+  return (
+    <section id="work" className="section section--alt" style={{ paddingBottom: '6rem', position: 'relative' }}>
+      <div className="max-w">
+        <div className="eyebrow" style={{ marginBottom: '4rem', color: 'var(--accent2)' }}>/ Our Services</div>
+
+        <div className="services-layout">
+          {/* Left Column: Services List */}
+          <div className="services-list">
+            {domainSections.map(domain => {
+              const isActive = activeDomain === domain.key;
+              const items = projects.filter(p => p.type === domain.key);
+              
+              if (items.length === 0) return null;
+
+              return (
+                <div 
+                  key={domain.key} 
+                  className="service-item"
+                  onMouseEnter={() => setActiveDomain(domain.key)}
+                >
+                  <div className={`service-title ${isActive ? 'active' : ''}`}>
+                    {domain.title}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right Column: Image Reveal */}
+          <div className="services-image-col">
+            <div className="services-image-container" style={{ background: 'transparent', overflow: 'visible' }}>
+              <CoverflowCarousel 
+                projects={projects.filter(p => p.type === activeDomain)}
+                onProjectClick={setSelectedProject}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Project detail modal */}
       <AnimatePresence>
@@ -355,7 +335,98 @@ export default function Projects() {
       </AnimatePresence>
 
       <style>{`
+        .services-layout {
+          display: flex;
+          gap: 4rem;
+          align-items: flex-start;
+        }
+        .services-list {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .service-title {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(2.5rem, 4.5vw, 4rem);
+          font-weight: 700;
+          color: var(--fg);
+          opacity: 0.25;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+          letter-spacing: -0.03em;
+          line-height: 1.1;
+          text-transform: uppercase;
+        }
+        .service-title.active {
+          opacity: 1;
+          color: var(--fg);
+        }
+        .service-title:hover {
+          opacity: 0.6;
+        }
+        .service-title.active:hover {
+          opacity: 1;
+        }
+        
+        .services-image-col {
+          flex: 0 0 45%;
+          position: sticky;
+          top: 120px;
+        }
+        .services-image-container {
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          border-radius: 2rem;
+          overflow: hidden;
+          background: var(--glass-card);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          position: relative;
+        }
+        .service-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
         .projects-scroll-track::-webkit-scrollbar { display: none; }
+        .projects-scroll-track {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .project-card-wrapper {
+          height: 340px;
+        }
+        .domain-card {
+          width: 280px;
+        }
+        
+        @media (max-width: 900px) {
+          .services-layout {
+            flex-direction: column;
+          }
+          .services-image-col {
+            display: block;
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+            top: 0;
+          }
+          .service-title {
+            font-size: clamp(2.2rem, 8vw, 3rem);
+          }
+          .domain-card {
+            width: 260px;
+          }
+        }
+        @media (max-width: 600px) {
+          .domain-card {
+            width: 85vw;
+          }
+        }
       `}</style>
     </section>
   );
