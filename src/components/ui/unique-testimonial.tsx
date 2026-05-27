@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { testimonials as rawTestimonials } from "@/data/index.js"
+import { motion } from "framer-motion"
 
 // Transform the imported testimonials to match the component's internal structure
 const testimonials = rawTestimonials.map((t, idx) => ({
@@ -35,28 +36,43 @@ export function Testimonials() {
   if (testimonials.length === 0) return null
 
   return (
-    <div className="flex flex-col items-center gap-10 py-16">
+    <div className="flex flex-col items-center gap-6 md:gap-10 py-8 md:py-16 w-full max-w-full overflow-hidden select-none">
       {/* Quote Container */}
-      <div className="relative px-8">
-        <span className="absolute -left-2 -top-6 text-7xl font-serif text-foreground/[0.06] select-none pointer-events-none">
+      <motion.div 
+        className="relative px-8 w-full max-w-lg cursor-grab active:cursor-grabbing flex flex-col items-center justify-center min-h-[180px] md:min-h-[140px]"
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.5}
+        onDragEnd={(_e, info) => {
+          const swipeThreshold = 50;
+          if (info.offset.x < -swipeThreshold) {
+            const nextIndex = (activeIndex + 1) % testimonials.length;
+            handleSelect(nextIndex);
+          } else if (info.offset.x > swipeThreshold) {
+            const prevIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
+            handleSelect(prevIndex);
+          }
+        }}
+      >
+        <span className="absolute left-2 top-0 text-6xl md:text-7xl font-serif text-foreground/[0.06] select-none pointer-events-none">
           "
         </span>
 
         <p
           className={cn(
-            "text-2xl md:text-3xl font-light text-foreground text-center max-w-lg leading-relaxed transition-all duration-400 ease-out",
+            "text-lg md:text-2xl font-light text-foreground text-center w-full leading-relaxed transition-all duration-400 ease-out px-4",
             isAnimating ? "opacity-0 blur-sm scale-[0.98]" : "opacity-100 blur-0 scale-100",
           )}
         >
           {displayedQuote}
         </p>
 
-        <span className="absolute -right-2 -bottom-8 text-7xl font-serif text-foreground/[0.06] select-none pointer-events-none">
+        <span className="absolute right-2 bottom-0 text-6xl md:text-7xl font-serif text-foreground/[0.06] select-none pointer-events-none">
           "
         </span>
-      </div>
+      </motion.div>
 
-      <div className="flex flex-col items-center gap-6 mt-2">
+      <div className="flex flex-col items-center gap-6 mt-1">
         {/* Role text */}
         <p
           className={cn(
