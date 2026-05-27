@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { projects, typeLabels } from '../data/index.js';
 import { GlowCard } from './ui/spotlight-card';
 import CoverflowCarousel from './CoverflowCarousel';
+import { VerticalImageStack } from './ui/vertical-image-stack';
 
 /* ─── Domain section config ─── */
 const domainSections = [
@@ -276,6 +277,16 @@ function ProjectCard({ project, index, onClick }) {
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeDomain, setActiveDomain] = useState(domainSections[0].key);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (selectedProject) {
@@ -289,42 +300,53 @@ export default function Projects() {
 
   return (
     <section id="work" className="section section--alt" style={{ paddingBottom: '6rem', position: 'relative' }}>
-      <div className="max-w">
-        <div className="eyebrow" style={{ marginBottom: '4rem', color: 'var(--accent2)' }}>/ Our Services</div>
+      <div className="max-w" style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>
+        
+        {domainSections.map((domain, idx) => {
+          const domainProjects = projects.filter(p => p.type === domain.key);
+          if (domainProjects.length === 0) return null;
 
-        <div className="services-layout">
-          {/* Left Column: Services List */}
-          <div className="services-list">
-            {domainSections.map(domain => {
-              const isActive = activeDomain === domain.key;
-              const items = projects.filter(p => p.type === domain.key);
-              
-              if (items.length === 0) return null;
+          return (
+            <div key={domain.key} className="project-category-block" style={{ width: '100%' }}>
+              {/* Category Header */}
+              <div style={{ marginBottom: '3rem', textAlign: 'left' }}>
+                <span className="eyebrow" style={{ color: 'var(--accent2)', display: 'block', marginBottom: '0.5rem' }}>
+                  / {domain.key.toUpperCase()}
+                </span>
+                <h3 className="category-title" style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+                  fontWeight: 700,
+                  color: "var(--fg)",
+                  margin: 0,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.02em'
+                }}>
+                  {domain.title}
+                </h3>
+              </div>
 
-              return (
-                <div 
-                  key={domain.key} 
-                  className="service-item"
-                  onMouseEnter={() => setActiveDomain(domain.key)}
-                >
-                  <div className={`service-title ${isActive ? 'active' : ''}`}>
-                    {domain.title}
+              {/* Projects Presentation */}
+              <div className="category-projects-container" style={{ position: 'relative', width: '100%' }}>
+                {isMobile ? (
+                  <div style={{ height: '340px', width: '100%' }}>
+                    <VerticalImageStack 
+                      projects={domainProjects}
+                      onSelect={setSelectedProject}
+                    />
                   </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Right Column: Image Reveal */}
-          <div className="services-image-col">
-            <div className="services-image-container" style={{ background: 'transparent', overflow: 'visible' }}>
-              <CoverflowCarousel 
-                projects={projects.filter(p => p.type === activeDomain)}
-                onProjectClick={setSelectedProject}
-              />
+                ) : (
+                  <div style={{ width: '100%', maxWidth: '750px', height: '480px', position: 'relative', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CoverflowCarousel 
+                      projects={domainProjects}
+                      onProjectClick={setSelectedProject}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
 
       {/* Project detail modal */}
@@ -414,6 +436,13 @@ export default function Projects() {
             margin-top: 2rem;
             position: relative;
             top: 0;
+          }
+          .services-image-container {
+            aspect-ratio: auto;
+            height: 340px;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
           }
           .service-title {
             font-size: clamp(2.2rem, 8vw, 3rem);

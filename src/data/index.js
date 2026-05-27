@@ -1,3 +1,6 @@
+import beatCover from '../assets/beat-cover.png';
+import eventCover from '../assets/event-cover.png';
+
 export const marqueeItems = [
   'UI/UX Design','Figma','Prototyping','Design Systems',
   'Front-end Dev','React','User Research','Branding',
@@ -65,7 +68,7 @@ export const projects = [
   {
     "title": "Event Management Website Design",
     "desc": "Crafting unforgettable user experiences for event management.",
-    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/event-mgmt.jpg",
+    "img": eventCover,
     "type": "web",
     "year": "2024",
     "behance": "https://www.behance.net/gallery/224965571/Event-Management-Website-Design"
@@ -81,7 +84,7 @@ export const projects = [
   {
     "title": "Beat Landing Page",
     "desc": "Education platform landing page – launch your career with India's leading educator.",
-    "img": "https://raw.githubusercontent.com/shibinsp45/Lovable-Portfolio/main/public/projects/beat-landing.png",
+    "img": beatCover,
     "type": "web",
     "year": "2024",
     "behance": "https://www.behance.net/gallery/215987973/Beat-Landing-Page"

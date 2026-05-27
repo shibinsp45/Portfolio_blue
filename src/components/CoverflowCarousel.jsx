@@ -105,7 +105,7 @@ export default function CoverflowCarousel({ projects, onProjectClick }) {
             <img 
               src={project.img} 
               alt={project.title} 
-              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '2rem' }}
+              style={{ width: '100%', aspectRatio: '16 / 10', objectFit: 'cover', display: 'block', borderRadius: '2rem' }}
             />
             
             <AnimatePresence>

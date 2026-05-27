@@ -138,15 +138,15 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
     if (diff === 0) {
       return { y: 0, scale: 1, opacity: 1, zIndex: 5, rotateX: 0 }
     } else if (diff === -1) {
-      return { y: -50, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: 6 }
+      return { y: -35, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: 6 }
     } else if (diff === -2) {
-      return { y: -95, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: 12 }
+      return { y: -65, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: 12 }
     } else if (diff === 1) {
-      return { y: 50, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: -6 }
+      return { y: 35, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: -6 }
     } else if (diff === 2) {
-      return { y: 95, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: -12 }
+      return { y: 65, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: -12 }
     } else {
-      return { y: diff > 0 ? 180 : -180, scale: 0.7, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -18 : 18 }
+      return { y: diff > 0 ? 120 : -120, scale: 0.7, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -18 : 18 }
     }
   }
 
@@ -162,10 +162,10 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
     <div 
       ref={containerRef}
       onWheel={handleWheel}
-      className="relative flex h-[430px] w-full items-center justify-center overflow-hidden"
+      className="relative flex h-[320px] w-full items-center justify-center overflow-hidden"
     >
       {/* Card Stack */}
-      <div className="relative flex h-[350px] w-[260px] items-center justify-center" style={{ perspective: "1000px" }}>
+      <div className="relative flex h-[240px] w-[310px] items-center justify-center" style={{ perspective: "1000px" }}>
         {items.map((image, index) => {
           if (!isVisible(index)) return null
           const style = getCardStyle(index)
@@ -203,7 +203,7 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
               }}
             >
               <div
-                className="relative h-[300px] w-[210px] overflow-hidden rounded-2xl bg-card ring-1 ring-border/20"
+                className="relative h-[180px] w-[280px] overflow-hidden rounded-2xl bg-card ring-1 ring-border/20"
                 style={{
                   boxShadow: isCurrent
                     ? "0 20px 40px -10px rgba(124,109,250,0.3), 0 0 0 1px rgba(124,109,250,0.15)"
@@ -259,16 +259,6 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
         ))}
       </div>
 
-      {/* Counter - placed on the left */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-        <div className="flex flex-col items-center">
-          <span className="text-xl font-light text-fg tabular-nums">
-            {String(currentIndex + 1).padStart(2, "0")}
-          </span>
-          <div className="my-1.5 h-px w-6 bg-fg/20" />
-          <span className="text-[0.7rem] text-fg3 tabular-nums">{String(items.length).padStart(2, "0")}</span>
-        </div>
-      </div>
     </div>
   )
 }

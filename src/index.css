@@ -241,3 +241,58 @@ a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline
 .neumorphic-button:hover::after {
   @apply opacity-100;
 }
+
+/* Blog Card Responsive Sizing */
+.blog-card {
+  display: block;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  text-decoration: none;
+  height: 420px;
+  position: relative;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.blog-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: padding 0.3s ease;
+}
+.blog-card-title {
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: font-size 0.3s ease;
+}
+.blog-card-desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+  margin: 0;
+  transition: font-size 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .blog-card {
+    height: 310px;
+  }
+  .blog-card-content {
+    padding: 1.25rem;
+  }
+  .blog-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .blog-card-desc {
+    font-size: 0.8rem;
+  }
+}

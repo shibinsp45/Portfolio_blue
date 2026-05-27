@@ -94,6 +94,49 @@ export function Marquee() {
   );
 }
 
+function SwipeableSkillRow({ row, rowIndex }) {
+  const rowRef = useRef(null);
+  return (
+    <div ref={rowRef} style={{ width: '100%', overflow: 'hidden', position: 'relative', cursor: 'grab' }} className="active:cursor-grabbing">
+      <motion.div 
+        drag="x"
+        dragConstraints={rowRef}
+        dragElastic={0.2}
+        style={{ display: 'flex', gap: '0.75rem', width: 'max-content', padding: '0.25rem 0' }}
+      >
+        {row.map((skill, idx) => {
+          const playfulColors = [
+            '#ffb703', '#ff477e', '#00f5d4', '#b5179e', '#4cc9f0', 
+            '#9ef01a', '#ffba08', '#ff8fa3', '#c77dff', '#34d399', 
+            '#38bdf8', '#a78bfa', '#fb7185', '#2dd4bf', '#fbbf24'
+          ];
+          const color = playfulColors[(idx + rowIndex * 10) % playfulColors.length];
+          return (
+            <motion.div 
+              key={skill.label}
+              whileTap={{ scale: 0.93, y: -1 }}
+              style={{
+                padding: '9px 18px',
+                borderRadius: '999px',
+                background: color,
+                border: `1px solid ${color}`,
+                color: '#111118', // dark text for high contrast on bright pills
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+                boxShadow: `0 4px 14px ${color}50`,
+                userSelect: 'none'
+              }}
+            >
+              {skill.label}
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+}
+
 /* ─── Skills (Gravity Sandbox) ─── */
 export function Skills() {
   const vp = { once: true, amount: 0.2 };
@@ -101,7 +144,7 @@ export function Skills() {
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => setIsMobile(window.innerWidth <= 1024);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -212,7 +255,7 @@ export function Skills() {
           transform: scale(1.08);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .skills-layout {
             flex-direction: column;
             gap: 2rem;
@@ -227,6 +270,10 @@ export function Skills() {
             border-radius: 20px;
             border: 1px solid var(--border2);
             background: var(--bg2);
+          }
+          .skills-mobile-container {
+            width: 100%;
+            background: transparent;
           }
           .skill-pill {
             padding: 9px 18px;
@@ -262,7 +309,7 @@ export function Skills() {
           pointer-events: none;
           letter-spacing: 0.06em;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .sandbox-hint-desk { display: none; }
         }
       `}</style>
@@ -304,41 +351,59 @@ export function Skills() {
           </h2>
 
           <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.75, maxWidth: 240 }}>
-            Grab any skill and toss it around — the playground is yours.
+            {isMobile 
+              ? "Swipe and explore my design superpowers." 
+              : "Grab any skill and toss it around — the playground is yours."}
           </p>
         </motion.div>
 
-        {/* ── Gravity Playground ── */}
+        {/* ── Gravity Playground or Mobile Swipe ── */}
         <motion.div
-          className="skills-sandbox"
+          className={isMobile ? "skills-mobile-container" : "skills-sandbox"}
           variants={fadeUp} initial="hidden" whileInView="visible"
           viewport={vp} transition={{ duration: 0.7, delay: 0.15 }}
+          style={isMobile ? { width: '100%', overflow: 'hidden' } : {}}
         >
-          <Gravity gravity={{ x: 0, y: 0 }} className="w-full h-full">
-            {superpowerSkills.map((skill, idx) => {
-              const coords = mapCoordinates(skill.x, skill.y);
-              const playfulColors = [
-                '#ffb703', '#ff477e', '#00f5d4', '#b5179e', '#4cc9f0', 
-                '#9ef01a', '#ffba08', '#ff8fa3', '#c77dff', '#34d399', 
-                '#38bdf8', '#a78bfa', '#fb7185', '#2dd4bf', '#fbbf24'
-              ];
-              const color = playfulColors[idx % playfulColors.length];
-              return (
-                <MatterBody
-                  key={skill.label}
-                  matterBodyOptions={{ friction: 0.05, frictionAir: 0.008, restitution: 0.85, density: 0.001 }}
-                  x={coords.x} y={coords.y}
-                  angle={Math.random() * 16 - 8}
-                >
-                  <div className="skill-pill" style={{ '--pill-color': color, '--pill-color-glow': `${color}59` }}>
-                    {skill.label}
-                  </div>
-                </MatterBody>
-              );
-            })}
-          </Gravity>
-
-
+          {isMobile ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%', overflow: 'hidden', padding: '1.5rem 0' }}>
+              {[
+                superpowerSkills.slice(0, 10),
+                superpowerSkills.slice(10, 20),
+                superpowerSkills.slice(20)
+              ].map((row, rowIdx) => (
+                <SwipeableSkillRow key={rowIdx} row={row} rowIndex={rowIdx} />
+              ))}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--fg3)', marginTop: '1rem', fontFamily: 'monospace', opacity: 0.8 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span>Swipe left or right to explore</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          ) : (
+            <Gravity gravity={{ x: 0, y: 0 }} className="w-full h-full">
+              {superpowerSkills.map((skill, idx) => {
+                const coords = mapCoordinates(skill.x, skill.y);
+                const playfulColors = [
+                  '#ffb703', '#ff477e', '#00f5d4', '#b5179e', '#4cc9f0', 
+                  '#9ef01a', '#ffba08', '#ff8fa3', '#c77dff', '#34d399', 
+                  '#38bdf8', '#a78bfa', '#fb7185', '#2dd4bf', '#fbbf24'
+                ];
+                const color = playfulColors[idx % playfulColors.length];
+                return (
+                  <MatterBody
+                    key={skill.label}
+                    matterBodyOptions={{ friction: 0.05, frictionAir: 0.008, restitution: 0.85, density: 0.001 }}
+                    x={coords.x} y={coords.y}
+                    angle={Math.random() * 16 - 8}
+                  >
+                    <div className="skill-pill" style={{ '--pill-color': color, '--pill-color-glow': `${color}59` }}>
+                      {skill.label}
+                    </div>
+                  </MatterBody>
+                );
+              })}
+            </Gravity>
+          )}
         </motion.div>
 
       </div>
@@ -515,7 +580,40 @@ export function Why() {
           ))}
         </div>
       </div>
-      <style>{`@media(max-width:900px){.why-grid{grid-template-columns:1fr!important}}`}</style>
+      <style>{`
+        @media (max-width: 900px) {
+          .why-grid {
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            gap: 16px !important;
+            padding: 10px 2px 20px 2px !important;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+          }
+          .why-grid::-webkit-scrollbar {
+            display: none;
+          }
+          .why-card {
+            flex: 0 0 250px !important;
+            scroll-snap-align: start;
+            padding: 1.5rem !important;
+          }
+          .why-num {
+            font-size: 2.25rem !important;
+            margin-bottom: 1rem !important;
+          }
+          .why-card-title {
+            font-size: 1.1rem !important;
+          }
+          .why-card-desc {
+            font-size: 0.8rem !important;
+            line-height: 1.6 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -560,9 +658,10 @@ export function Blogs() {
             <motion.div key={idx} initial="hidden" whileInView="visible" viewport={vp} variants={fadeUp} transition={{ duration: 0.5, delay: idx * 0.1 }}>
               <GlowCard customSize className="w-full h-full overflow-hidden" glowColor="blue">
               <a 
-                href="#"
+                href={blog.behance}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="blog-card group"
-                style={{ display: 'block', borderRadius: '1.5rem', overflow: 'hidden', textDecoration: 'none', height: '420px', position: 'relative', border: '1px solid var(--border)' }}
               >
                 {/* Full Card Image Background */}
                 <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
@@ -583,9 +682,9 @@ export function Blogs() {
                 </div>
 
                 {/* Card Content Overlay */}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                  <h3 style={{ fontSize: '1.25rem', color: '#ffffff', marginBottom: '0.75rem', fontWeight: 600, lineHeight: 1.3 }}>{blog.title}</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.5, margin: 0 }}>{blog.desc}</p>
+                <div className="blog-card-content">
+                  <h3 className="blog-card-title">{blog.title}</h3>
+                  <p className="blog-card-desc">{blog.desc}</p>
                   <div 
                     className="transition-all duration-300 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
                     style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#a78bfa', fontSize: '0.875rem', fontWeight: 500 }}
