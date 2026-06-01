@@ -138,15 +138,15 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
     if (diff === 0) {
       return { y: 0, scale: 1, opacity: 1, zIndex: 5, rotateX: 0 }
     } else if (diff === -1) {
-      return { y: -35, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: 6 }
+      return { y: -40, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: 6 }
     } else if (diff === -2) {
-      return { y: -65, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: 12 }
+      return { y: -75, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: 12 }
     } else if (diff === 1) {
-      return { y: 35, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: -6 }
+      return { y: 40, scale: 0.9, opacity: 0.65, zIndex: 4, rotateX: -6 }
     } else if (diff === 2) {
-      return { y: 65, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: -12 }
+      return { y: 75, scale: 0.8, opacity: 0.35, zIndex: 3, rotateX: -12 }
     } else {
-      return { y: diff > 0 ? 120 : -120, scale: 0.7, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -18 : 18 }
+      return { y: diff > 0 ? 140 : -140, scale: 0.7, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -18 : 18 }
     }
   }
 
@@ -162,10 +162,10 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
     <div 
       ref={containerRef}
       onWheel={handleWheel}
-      className="relative flex h-[320px] w-full items-center justify-center overflow-hidden"
+      className="relative flex h-[350px] w-full items-center justify-center overflow-hidden"
     >
       {/* Card Stack */}
-      <div className="relative flex h-[240px] w-[310px] items-center justify-center" style={{ perspective: "1000px" }}>
+      <div className="relative flex h-[270px] w-[320px] items-center justify-center" style={{ perspective: "1000px" }}>
         {items.map((image, index) => {
           if (!isVisible(index)) return null
           const style = getCardStyle(index)
@@ -203,7 +203,7 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
               }}
             >
               <div
-                className="relative h-[180px] w-[280px] overflow-hidden rounded-2xl bg-card ring-1 ring-border/20"
+                className="relative h-[220px] w-[290px] overflow-hidden rounded-2xl bg-card ring-1 ring-border/20"
                 style={{
                   boxShadow: isCurrent
                     ? "0 20px 40px -10px rgba(124,109,250,0.3), 0 0 0 1px rgba(124,109,250,0.15)"
@@ -220,11 +220,11 @@ export function VerticalImageStack({ projects, onSelect }: VerticalImageStackPro
                   draggable={false}
                 />
 
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent z-1 pointer-events-none" />
+                {/* Dark Gradient Overlay from Top */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/25 to-transparent z-1 pointer-events-none" />
 
-                {/* Card content for identifying the project title on mobile */}
-                <div className="absolute bottom-0 inset-x-0 p-4 text-left z-2 pointer-events-none">
+                {/* Card content for identifying the project title on mobile (placed at the top) */}
+                <div className="absolute top-0 inset-x-0 p-4 text-left z-2 pointer-events-none">
                   <h4 className="text-sm font-semibold text-white truncate">{image.title}</h4>
                   <p className="text-[0.7rem] text-white/70 line-clamp-1 mt-0.5">{image.desc}</p>
                 </div>

@@ -351,59 +351,39 @@ export function Skills() {
           </h2>
 
           <p style={{ fontSize: '0.875rem', color: 'var(--fg2)', lineHeight: 1.75, maxWidth: 240 }}>
-            {isMobile 
-              ? "Swipe and explore my design superpowers." 
-              : "Grab any skill and toss it around — the playground is yours."}
+            Grab any skill and toss it around — the playground is yours.
           </p>
         </motion.div>
 
-        {/* ── Gravity Playground or Mobile Swipe ── */}
+        {/* ── Gravity Playground ── */}
         <motion.div
-          className={isMobile ? "skills-mobile-container" : "skills-sandbox"}
+          className="skills-sandbox"
           variants={fadeUp} initial="hidden" whileInView="visible"
           viewport={vp} transition={{ duration: 0.7, delay: 0.15 }}
-          style={isMobile ? { width: '100%', overflow: 'hidden' } : {}}
         >
-          {isMobile ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%', overflow: 'hidden', padding: '1.5rem 0' }}>
-              {[
-                superpowerSkills.slice(0, 10),
-                superpowerSkills.slice(10, 20),
-                superpowerSkills.slice(20)
-              ].map((row, rowIdx) => (
-                <SwipeableSkillRow key={rowIdx} row={row} rowIndex={rowIdx} />
-              ))}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--fg3)', marginTop: '1rem', fontFamily: 'monospace', opacity: 0.8 }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                <span>Swipe left or right to explore</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </div>
-            </div>
-          ) : (
-            <Gravity gravity={{ x: 0, y: 0 }} className="w-full h-full">
-              {superpowerSkills.map((skill, idx) => {
-                const coords = mapCoordinates(skill.x, skill.y);
-                const playfulColors = [
-                  '#ffb703', '#ff477e', '#00f5d4', '#b5179e', '#4cc9f0', 
-                  '#9ef01a', '#ffba08', '#ff8fa3', '#c77dff', '#34d399', 
-                  '#38bdf8', '#a78bfa', '#fb7185', '#2dd4bf', '#fbbf24'
-                ];
-                const color = playfulColors[idx % playfulColors.length];
-                return (
-                  <MatterBody
-                    key={skill.label}
-                    matterBodyOptions={{ friction: 0.05, frictionAir: 0.008, restitution: 0.85, density: 0.001 }}
-                    x={coords.x} y={coords.y}
-                    angle={Math.random() * 16 - 8}
-                  >
-                    <div className="skill-pill" style={{ '--pill-color': color, '--pill-color-glow': `${color}59` }}>
-                      {skill.label}
-                    </div>
-                  </MatterBody>
-                );
-              })}
-            </Gravity>
-          )}
+          <Gravity gravity={{ x: 0, y: 0 }} className="w-full h-full">
+            {superpowerSkills.map((skill, idx) => {
+              const coords = mapCoordinates(skill.x, skill.y);
+              const playfulColors = [
+                '#ffb703', '#ff477e', '#00f5d4', '#b5179e', '#4cc9f0', 
+                '#9ef01a', '#ffba08', '#ff8fa3', '#c77dff', '#34d399', 
+                '#38bdf8', '#a78bfa', '#fb7185', '#2dd4bf', '#fbbf24'
+              ];
+              const color = playfulColors[idx % playfulColors.length];
+              return (
+                <MatterBody
+                  key={skill.label}
+                  matterBodyOptions={{ friction: 0.05, frictionAir: 0.008, restitution: 0.85, density: 0.001 }}
+                  x={coords.x} y={coords.y}
+                  angle={Math.random() * 16 - 8}
+                >
+                  <div className="skill-pill" style={{ '--pill-color': color, '--pill-color-glow': `${color}59` }}>
+                    {skill.label}
+                  </div>
+                </MatterBody>
+              );
+            })}
+          </Gravity>
         </motion.div>
 
       </div>
@@ -504,8 +484,8 @@ export function About() {
         }
         @media (max-width: 480px) {
           .about-stats-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
           }
         }
       `}</style>

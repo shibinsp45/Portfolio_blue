@@ -439,7 +439,7 @@ export default function Projects() {
           }
           .services-image-container {
             aspect-ratio: auto;
-            height: 340px;
+            height: 370px;
             background: transparent;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
