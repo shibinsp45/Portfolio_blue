@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { projects, typeLabels } from '../data/index.js';
 import { GlowCard } from './ui/spotlight-card';
 import CoverflowCarousel from './CoverflowCarousel';
@@ -272,6 +272,153 @@ function ProjectCard({ project, index, onClick }) {
   );
 }
 
+/* ─── Sticky Horizontal Scroll Section for Desktop ─── */
+function HorizontalProjectsSection({ domain, domainProjects, idx, isMobile, setSelectedProject }) {
+  const targetRef = useRef(null);
+  
+  // Card configuration
+  const cardWidth = 360; 
+  const gap = 24; 
+  const totalWidth = domainProjects.length * cardWidth + (domainProjects.length - 1) * gap;
+  
+  // Determine if horizontal scroll is needed
+  const containerWidth = 1000;
+  const overflowWidth = Math.max(0, totalWidth - containerWidth);
+  
+  // Height of the scroll container determines scroll speed/duration
+  const scrollHeight = overflowWidth > 0 ? `calc(100vh + ${overflowWidth * 1.2}px)` : 'auto';
+
+  const { scrollYProgress } = useScroll({
+    target: overflowWidth > 0 ? targetRef : undefined,
+    offset: ["start start", "end end"]
+  });
+
+  // Smooth scroll translation
+  const x = useTransform(scrollYProgress, [0, 1], ["0px", `-${overflowWidth}px`]);
+
+  if (isMobile) {
+    return (
+      <div className="project-category-block" style={{ width: '100%', marginBottom: '4rem' }}>
+        {/* Category Header */}
+        <div style={{ marginBottom: '1.5rem', padding: '0 1.5rem', textAlign: 'left' }}>
+          <span className="eyebrow" style={{ color: 'var(--accent2)', display: 'block', marginBottom: '0.25rem' }}>
+            / {domain.key.toUpperCase()}
+          </span>
+          <h3 className="category-title" style={{
+            fontFamily: "'Fraunces', serif",
+            fontSize: "1.8rem",
+            fontWeight: 700,
+            color: "var(--fg)",
+            margin: 0
+          }}>
+            {domain.title}
+          </h3>
+        </div>
+
+        {/* Mobile Vertical List of Project Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '0 1.5rem', width: '100%' }}>
+          {domainProjects.map((project, pIdx) => (
+            <div 
+              key={pIdx} 
+              style={{ 
+                width: '100%', 
+                borderRadius: '1.25rem', 
+                overflow: 'hidden',
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                cursor: 'pointer'
+              }}
+              onClick={() => setSelectedProject(project)}
+            >
+              {/* Header Bar */}
+              <div style={{ 
+                background: '#111118', 
+                padding: '1rem 1.25rem', 
+                borderBottom: '1px solid var(--border)',
+                textAlign: 'left'
+              }}>
+                <h4 style={{ 
+                  fontSize: '0.95rem', 
+                  fontWeight: 600, 
+                  color: '#ffffff', 
+                  margin: 0,
+                  fontFamily: "'Inter', sans-serif" 
+                }}>
+                  {project.title}
+                </h4>
+              </div>
+
+              {/* Project Image */}
+              <div style={{ width: '100%', aspectRatio: '16 / 10', overflow: 'hidden' }}>
+                <img 
+                  src={project.img} 
+                  alt={project.title} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      ref={targetRef} 
+      style={{ 
+        height: scrollHeight, 
+        position: overflowWidth > 0 ? 'relative' : 'static',
+        marginBottom: overflowWidth > 0 ? '0' : '6rem'
+      }}
+    >
+      <div style={{
+        position: overflowWidth > 0 ? 'sticky' : 'static',
+        top: 0,
+        height: overflowWidth > 0 ? '100vh' : 'auto',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+      }}>
+        <div className="max-w" style={{ width: '100%', padding: '0 2rem' }}>
+          {/* Category Header */}
+          <div style={{ marginBottom: '3rem', textAlign: 'left' }}>
+            <span className="eyebrow" style={{ color: 'var(--accent2)', display: 'block', marginBottom: '0.5rem' }}>
+              / {domain.key.toUpperCase()}
+            </span>
+            <h3 className="category-title" style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+              fontWeight: 700,
+              color: "var(--fg)",
+              margin: 0,
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em'
+            }}>
+              {domain.title}
+            </h3>
+          </div>
+
+          {/* Horizontal projects list */}
+          <div style={{ width: '100%', overflow: 'visible' }}>
+            <motion.div style={{ x: overflowWidth > 0 ? x : '0px', display: 'flex', gap: `${gap}px` }}>
+              {domainProjects.map((project, pIdx) => (
+                <div key={pIdx} style={{ flex: `0 0 ${cardWidth}px`, height: '340px' }}>
+                  <ProjectCard 
+                    project={project}
+                    index={pIdx}
+                    onClick={setSelectedProject}
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ─── Main Projects Section ─── */
 export default function Projects() {
@@ -299,52 +446,22 @@ export default function Projects() {
   const activeImage = projects.find(p => p.type === activeDomain)?.img || '';
 
   return (
-    <section id="work" className="section section--alt" style={{ paddingBottom: '6rem', position: 'relative' }}>
-      <div className="max-w" style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>
+    <section id="work" className="section section--alt" style={{ padding: '0', position: 'relative' }}>
+      <div className="max-w" style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '4rem' : '0' }}>
         
         {domainSections.map((domain, idx) => {
           const domainProjects = projects.filter(p => p.type === domain.key);
           if (domainProjects.length === 0) return null;
 
           return (
-            <div key={domain.key} className="project-category-block" style={{ width: '100%' }}>
-              {/* Category Header */}
-              <div style={{ marginBottom: '3rem', textAlign: 'left' }}>
-                <span className="eyebrow" style={{ color: 'var(--accent2)', display: 'block', marginBottom: '0.5rem' }}>
-                  / {domain.key.toUpperCase()}
-                </span>
-                <h3 className="category-title" style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
-                  fontWeight: 700,
-                  color: "var(--fg)",
-                  margin: 0,
-                  lineHeight: 1.1,
-                  letterSpacing: '-0.02em'
-                }}>
-                  {domain.title}
-                </h3>
-              </div>
-
-              {/* Projects Presentation */}
-              <div className="category-projects-container" style={{ position: 'relative', width: '100%' }}>
-                {isMobile ? (
-                  <div style={{ height: '340px', width: '100%' }}>
-                    <VerticalImageStack 
-                      projects={domainProjects}
-                      onSelect={setSelectedProject}
-                    />
-                  </div>
-                ) : (
-                  <div style={{ width: '100%', maxWidth: '750px', height: '480px', position: 'relative', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CoverflowCarousel 
-                      projects={domainProjects}
-                      onProjectClick={setSelectedProject}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+            <HorizontalProjectsSection
+              key={domain.key}
+              domain={domain}
+              domainProjects={domainProjects}
+              idx={idx}
+              isMobile={isMobile}
+              setSelectedProject={setSelectedProject}
+            />
           );
         })}
       </div>
